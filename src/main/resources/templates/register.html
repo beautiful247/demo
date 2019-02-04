@@ -6,17 +6,17 @@
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"
           href="../static/bootstrap/css/bootstrap.min.css"/>
     <script th:src="@{/jquery/jquery-3.3.1.min.js}" src="../static/jquery/jquery-3.3.1.min.js"></script>
-    <title>Detail</title>
+    <title>Register</title>
 </head>
 <body>
-<h1>Detail</h1>
-<table class="table-hover">
-    <tr>
-        <td>USERNAME</td>
-    </tr>
-    <tr>
-        <th th:text="${user.name}"></th>
-    </tr>
-</table>
+<div class="register" align="center">
+    <form th:action="register">
+        <h2>Register</h2>
+        <p>ID:<input type="text" th:name="name"/></p>
+        <p>PASSWORD:<input type="password" th:name="password"/></p>
+        <p th:text="${msg}"></p>
+        <input type="submit" value="Submit"/>
+    </form>
+</div>
 </body>
 </html>

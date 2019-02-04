@@ -11,9 +11,11 @@
 <body>
 <div align="center">
     <div class="art-card">
-        <h2 th:text="${article.title}"></h2>
-        <p th:text="${article.user_id}"></p>
-        <p th:text="${article.content}"></p>
+        <h2 th:text="${user_article.title}"></h2>
+        <p th:text="${user_article.name}"></p>
+        <p th:text="${user_article.post_time}"></p>
+        <p th:text="${user_article.content}"></p>
+        <p th:text="${user_article.likes}"></p>
     </div>
     <div class="com-card">
         <div th:each="comment:${pageInfo.list}">

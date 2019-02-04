@@ -39,8 +39,8 @@ public class UserController {
         for(int i=0;i<arts.size();i++){
             user = userMapper.selectByPrimaryKey(arts.get(i).getUser_id());
             user_articles.add(new User_Article(arts.get(i).getUser_id(),
-                    user.getName()
-                    ,arts.get(i).getArticle_id(),
+                    user.getName(),
+                    arts.get(i).getArticle_id(),
                     arts.get(i).getTitle(),
                     arts.get(i).getCategory_id(),
                     arts.get(i).getPost_time(),
@@ -64,15 +64,24 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping("detail")
-    public String detail(Model model,@RequestParam(value = "user_id",required = false)Integer userId){
-        User user = userMapper.selectByPrimaryKey(userId);
-        model.addAttribute("user",user);
-        return "detail";
-    }
-
     @RequestMapping("register")
-    public String register(Model model){
+    public String register(Model model,
+                           @RequestParam(value = "name",required = false)String name,
+                           @RequestParam(value = "password",required = false)String password){
+        if(name!=null){
+            User user = new User(null,name,password,2,null,null);
+            String msg = "";
+            try{
+                userMapper.insert(user);
+                msg = "Success";
+            }catch (Exception e){
+                msg = "Fail";
+                model.addAttribute("msg",msg);
+                return "register";
+            }
+            model.addAttribute("msg",msg);
+            return "result";
+        }
         return "register";
     }
 }
