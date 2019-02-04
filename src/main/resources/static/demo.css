@@ -1,0 +1,39 @@
+/* CSS style selected by element */
+body {
+    text-align: center;
+}
+
+/* CSS style selected by class */
+*.login {
+    text-align: center;
+    position: relative;
+    left: 35%;
+    padding: 10px;
+    margin-top: 5%;
+    width: 30%;
+    border:#d5d5d5 solid thin;
+    box-shadow: 10px 10px 5px #d5d5d5;
+}
+
+*.register {
+    text-align: center;
+    position: relative;
+    left: 35%;
+    padding: 10px;
+    margin-top: 5%;
+    width: 30%;
+    border:#d5d5d5 solid thin;
+    box-shadow: 10px 10px 5px #d5d5d5;
+}
+
+*.art-card {
+    text-align: center;
+    border: #d5d5d5 solid thin;
+    margin: 10px 10px 10px 10px;
+}
+
+*.art-card:hover {
+    box-shadow: 10px 10px 5px #d5d5d5;
+}
+
+/* CSS style selected by id */

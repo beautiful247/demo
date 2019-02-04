@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"
+          href="../../static/bootstrap/css/bootstrap.min.css"/>
+    <script th:src="@{/jquery/jquery-3.3.1.min.js}" src="../../static/jquery/jquery-3.3.1.min.js"></script>
+    <title>Data Test</title>
+    <script type="text/javascript" th:inline="javascript">
+        function upload() {
+            $.ajax({
+                type:'POST',
+                dataType:'TEXT',
+                url:"/dataTest",
+                data:$('#dataTest').serialize(),
+                success:function (data) {
+                    alert("SUCCESS");
+                },
+                error:function () {
+                    alert("FAIL");
+                }
+            }) ;
+        }
+    </script>
+</head>
+<body>
+<h1>Data Test</h1>
+<form id="dataTest" class="form-inline">
+    <p>USERNAME:</p>
+    <input class="form-control" type="text" name="username" id="username"/>
+    <p>PASSWORD:</p>
+    <input class="form-control" type="password" name="password" id="password"/>
+    <button class="btn-group" onclick="upload()">UPLOAD</button>
+</form>
+</body>
+</html>
