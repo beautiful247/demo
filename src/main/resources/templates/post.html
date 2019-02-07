@@ -19,6 +19,22 @@
             });
         });
 
+        function post() {
+            $.ajax({
+               type:"post",
+               dataType:"TEXT",
+                url:"/post",
+                data:{
+
+                },
+                success:function (data) {
+                    alert("SUCCESS");
+                },
+                error:function () {
+                    alert("FAIL");
+                }
+            });
+        }
     </script>
 </head>
 <body>
