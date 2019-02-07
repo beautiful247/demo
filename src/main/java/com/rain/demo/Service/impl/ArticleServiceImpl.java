@@ -22,23 +22,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public int post() {
-        Article article = new Article();
-        article.setArticle_id(articleMapper.getAll().size()+1);
-        article.setUser_id(1);
-        article.setCategory_id(1);
-        article.setContent("This is a test!");
-        article.setPost_time(new Date());
-        try{
-            articleMapper.insert(article);
-            return 0;
-        }catch (Exception e){
-            System.out.println("Error!");
-            return -1;
-        }
-    }
-
-    @Override
     public int deleteArt(int id) {
         try{
             articleMapper.deleteByPrimaryKey(id);

@@ -3,38 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" href="../static/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" th:href="@{/demo.css}" href="../static/demo.css">
-    <script th:src="@{/jquery/jquery-3.3.1.min.js}" src="../static/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" href="/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" th:href="@{/demo.css}" href="/demo.css">
+    <script th:src="@{/jquery/jquery-3.3.1.min.js}" src="/jquery/jquery-3.3.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="/bootstrap/js/bootstrap.js"/>
     <title>Rain's Blog</title>
     <script>
     </script>
 </head>
 <body>
-<div class="container" style="width: 50%">
-    <div id="user" align="center" style="margin-top: 15px;margin-bottom: 15px">
-        <form th:action="detail" th:if="${user}" method="post"><input type="submit" th:name="user_id" th:value="${user.user_id}"/></form>
-        <div th:unless="${user}">
-            <a class="btn btn-primary" href="/login">Login</a>
-            <a class="btn btn-primary" href="/register">Register</a>
+<div class="navigator">
+    <!--
+    <form th:action="detail" th:if="${user}" method="post">
+        <input type="submit" th:name="name" th:value="${user.name}"/>
+    </form>
+    -->
+    <form class="form-search">
+        <div class="input-append">
+            <input type="text" class="span2 search-query" th:name="search">
+            <button type="submit" class="btn">Search</button>
         </div>
-
+        <!--
+        <div class="input-prepend">
+            <button type="submit" class="btn">Search</button>
+            <input type="text" class="span2 search-query">
+        </div>
+        -->
+    </form>
+    <div th:if="${user}" style="color: lightyellow">
+        <p th:text="${user.name}"></p>
     </div>
-    <div id="articles" align="center">
+    <form th:action="post" th:if="${user}" method="post">
+        <input style="display: none" type="text" th:name="username" th:value="${user.name}"/>
+        <input type="submit" value="Post"/>
+    </form>
+    <!--
+    <a th:if="${user}" class="btn btn-primary" href="/post">Post</a>
+    -->
+    <div th:unless="${user}">
+        <a class="login_index" href="/login">Login</a>
+        <a class="regis_index" href="/register">Register</a>
+    </div>
+
+</div>
+<div class="container" align="center" style="width: 50%">
+    <div id="articles">
         <div class="art-card" th:each="article:${pageInfo.list}">
             <h2 th:text="${article.title}"></h2>
-            <p th:text="${article.name}"></p>
+            <p th:text="${article.user_id}"></p>
             <p th:text="${article.content}"></p>
             <form th:action="article" method="post">
                 <input th:name="articleId" th:value="${article.article_id}" style="display: none"/>
-                <input class="btn btn-primary" type="submit" value="view more"/>
+                <input class="view" type="submit" value="view more"/>
             </form>
         </div>
+        <!--
         <p>CURRENT <span th:text="${pageInfo.pageNum}"></span> PAGE, TOTAL <span th:text="${pageInfo.pages}"></span> PAGES, TOTAL <span th:text="${pageInfo.total}"></span> ITEMS</p>
+        -->
+        <!--
         <a class="btn btn-primary" th:href="@{/}">FIRST</a>
+        -->
         <a class="btn btn-primary" th:href="@{/(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">PREVIOUS</a>
         <a class="btn btn-primary" th:href="@{/(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">NEXT</a>
+        <!--
         <a class="btn btn-primary" th:href="@{/(pageNum=${pageInfo.pages})}">LAST</a>
+        -->
     </div>
 </div>
 </body>

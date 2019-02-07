@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"
-          href="../static/bootstrap/css/bootstrap.min.css"/>
-    <script th:src="@{/jquery/jquery-3.3.1.min.js}" src="../static/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" href="/bootstrap/css/bootstrap.min.css"/>
+    <script th:src="@{/jquery/jquery-3.3.1.min.js}" src="/jquery/jquery-3.3.1.min.js"></script>
     <title>Article</title>
 </head>
 <body>
@@ -18,21 +17,20 @@
         <p th:text="${user_article.likes}"></p>
     </div>
     <div class="com-card">
-        <div th:each="comment:${pageInfo.list}">
+        <div th:each="comment:${comments}">
             <p th:text="${comment.user_id}"></p>
             <p th:text="${comment.comment_time}"></p>
             <p th:text="${comment.content}"></p>
             <p th:text="${comment.likes}"></p>
         </div>
+        <!--
         <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
         <a th:href="@{/article}">首页</a>
         <a th:href="@{/article(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
         <a th:href="@{/article(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
-        <a th:href="@{/article(pageNum=${pageInfo.pages})}">尾页</a>
+        <a th:href="@{/article(pageNum=${pageInfo.pages} and articleId=${articleId})}">尾页</a>
+        -->
     </div>
-    <!--
-
-    -->
 </div>
 </body>
 </html>

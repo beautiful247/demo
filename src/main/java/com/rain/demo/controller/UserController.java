@@ -2,6 +2,7 @@ package com.rain.demo.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rain.demo.Dao.ArticleMapper;
 import com.rain.demo.Dao.UserMapper;
 import com.rain.demo.Service.ArticleService;
 import com.rain.demo.Service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,42 +26,24 @@ public class UserController {
     private UserMapper userMapper;
     @Autowired
     private ArticleService articleService;
-
-    @RequestMapping("")
-    public String index(Model model,
-                        @RequestParam(value = "username",required = false)String name,
-                        @RequestParam(defaultValue = "1",value = "pageNum")Integer pageNum){
-        String demo = "Not Found";
-        model.addAttribute("no",demo);
-
-        PageHelper.startPage(pageNum,5);
-        List<Article> arts = articleService.getAll();
-        List<User_Article> user_articles = new ArrayList();
-        User user;
-        for(int i=0;i<arts.size();i++){
-            user = userMapper.selectByPrimaryKey(arts.get(i).getUser_id());
-            user_articles.add(new User_Article(arts.get(i).getUser_id(),
-                    user.getName(),
-                    arts.get(i).getArticle_id(),
-                    arts.get(i).getTitle(),
-                    arts.get(i).getCategory_id(),
-                    arts.get(i).getPost_time(),
-                    arts.get(i).getLikes(),
-                    arts.get(i).getComment_account(),
-                    arts.get(i).getContent()));
-        }
-        PageInfo<User_Article> pageInfo = new PageInfo<User_Article>(user_articles);
-        model.addAttribute("pageInfo",pageInfo);
-        return "index";
-    }
+    @Autowired
+    private ArticleMapper articleMapper;
 
     @RequestMapping("login")
     public String login(Model model,
-                        @RequestParam(value = "user_id",required = false)Integer userId){
-        if(userId!=null){
-            User user = userMapper.selectByPrimaryKey(userId);
-            model.addAttribute("user",user);
-            return "index";
+                        @RequestParam(value = "name",required = false)String name,
+                        @RequestParam(value = "password",required = false)String password){
+        String msg = "";
+        if(name!=null){
+            User user = userMapper.selectByName(name);
+            if(user.getPassword().equals(password)){
+                model.addAttribute("user",user);
+                return "redirect:/?username="+user.getName();
+            }else{
+                msg="Password Error!";
+                model.addAttribute("msg",msg);
+                return "login";
+            }
         }
         return "login";
     }
@@ -68,9 +52,9 @@ public class UserController {
     public String register(Model model,
                            @RequestParam(value = "name",required = false)String name,
                            @RequestParam(value = "password",required = false)String password){
+        String msg = "";
         if(name!=null){
             User user = new User(null,name,password,2,null,null);
-            String msg = "";
             try{
                 userMapper.insert(user);
                 msg = "Success";

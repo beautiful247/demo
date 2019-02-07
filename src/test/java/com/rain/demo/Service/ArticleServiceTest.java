@@ -30,14 +30,6 @@ public class ArticleServiceTest {
         }
     }
 
-    @Test
-    public void post(){
-        int res = articleService.post();
-        List<Article> allArticle = articleMapper.getAll();
-        for(int i=0;i<allArticle.size();i++){
-            System.out.println(allArticle.get(i).toString());
-        }
-    }
 
     @Test
     public void deleteArt(){
@@ -55,14 +47,18 @@ public class ArticleServiceTest {
                 System.out.println(articlesAfter.get(i).toString());
             }
             articleMapper.insert(article);
+            /*
             Article test = new Article();
+
             test.setUser_id(1);
             test.setPost_time(new Date());
             test.setCategory_id(1);
-            test.setContent("Test withou id");
+            test.setContent("Test without id");
             test.setLikes(1);
+
             articleMapper.insert(test);
             System.out.println("Insert test withou id:");
+            */
             List<Article> testArt = articleService.getAll();
             for(int i=0;i<testArt.size();i++){
                 System.out.println(testArt.get(i).toString());

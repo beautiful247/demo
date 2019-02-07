@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" href="../static/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" th:href="@{/demo.css}" href="../static/demo.css">
-    <script th:src="@{/jquery/jquery-3.3.1.min.js}" src="../static/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" href="/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/demo.css}" href="/demo.css">
+    <script th:src="@{/jquery/jquery-3.3.1.min.js}" src="/jquery/jquery-3.3.1.min.js"></script>
     <title>Login</title>
     <script type="text/javascript" th:inline="javascript">
         function upload() {
@@ -25,13 +25,40 @@
     </script>
 </head>
 <body>
+<!--
 <div class="login">
     <h1>Login</h1>
     <form id="login" class="form-inline">
-        <p>USERNAME:<input class="form-control" type="text" name="user_id" id="username"/></p>
+        <p>USERNAME:<input class="form-control" type="text" name="name" id="username"/></p>
         <p>PASSWORD:<input class="form-control" type="password" name="password" id="password"/></p>
+        <div th:if="${msg}" style="color: #9c3328">
+            <p th:text="${msg}"></p>
+        </div>
         <button class="btn btn-primary" onclick="upload()">Login</button>
     </form>
 </div>
+-->
+<div class="login">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="inputEmail">NAME</label>
+            <div class="controls">
+                <input type="text" id="inputEmail" placeholder="Name" th:name="name">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputPassword">Password</label>
+            <div class="controls">
+                <input type="password" id="inputPassword" placeholder="Password" th:name="password">
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button class="btn" onclick="upload()">Login</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 </body>
 </html>

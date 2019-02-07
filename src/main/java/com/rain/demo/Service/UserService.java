@@ -7,4 +7,5 @@ import java.util.List;
 
 @Service
 public interface UserService {
+    User selectByName(String name);
 }

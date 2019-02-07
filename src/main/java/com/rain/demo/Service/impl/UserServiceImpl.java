@@ -12,4 +12,11 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Override
+    public User selectByName(String name) {
+        return userMapper.selectByName(name);
+    }
 }

@@ -9,7 +9,5 @@ import java.util.List;
 public interface ArticleService {
     List<Article> getAll();
 
-    int post();
-
     int deleteArt(int id);
 }
