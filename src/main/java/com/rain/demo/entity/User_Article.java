@@ -21,16 +21,14 @@ public class User_Article {
 
     private String content;
 
-    public User_Article(Integer user_id, String name, Integer article_id, String title, Integer category_id, Date post_time, Integer likes, Integer comment_account, String content) {
-        this.user_id = user_id;
-        this.name = name;
-        this.article_id = article_id;
-        this.title = title;
-        this.category_id = category_id;
-        this.post_time = post_time;
-        this.likes = likes;
-        this.comment_account = comment_account;
-        this.content = content;
+    private String md_content;
+
+    public String getMd_content() {
+        return md_content;
+    }
+
+    public void setMd_content(String md_content) {
+        this.md_content = md_content;
     }
 
     public Integer getUser_id() {
@@ -103,5 +101,18 @@ public class User_Article {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public User_Article(Integer user_id, String name, Integer article_id, String title, Integer category_id, Date post_time, Integer likes, Integer comment_account, String content, String md_content) {
+        this.user_id = user_id;
+        this.name = name;
+        this.article_id = article_id;
+        this.title = title;
+        this.category_id = category_id;
+        this.post_time = post_time;
+        this.likes = likes;
+        this.comment_account = comment_account;
+        this.content = content;
+        this.md_content = md_content;
     }
 }

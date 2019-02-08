@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" href="/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" th:href="@{/demo.css}" href="/demo.css">
+    <script th:src="@{/jquery/jquery-3.3.1.min.js}" src="/jquery/jquery-3.3.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="/bootstrap/js/bootstrap.js"></script>
+    <title>Admin</title>
+</head>
+<body>
+<h1>Hello Admin!</h1>
+<div>
+    <p th:text="${user.name}"></p>
+</div>
+<div>
+    <form action="/admin/post">
+        <input type="submit" th:name="username" th:value="admin"/>
+    </form>
+</div>
+</body>
+</html>

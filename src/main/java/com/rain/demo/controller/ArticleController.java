@@ -16,9 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("")
@@ -40,8 +38,23 @@ public class ArticleController {
         String demo = "Not Found";
         model.addAttribute("no",demo);
         */
-        PageHelper.startPage(pageNum,10);
         List<Article> arts = articleService.getAll();
+
+        Collections.sort(arts, new Comparator<Article>() {
+            @Override
+            public int compare(Article o1, Article o2) {
+                if(o1.getArticle_id() > o2.getArticle_id()){
+                    return -1;
+                }
+                if(o1.getArticle_id() == o2.getArticle_id()){
+                    return 0;
+                }
+                return 1;
+            }
+        });
+        PageHelper.startPage(pageNum,10);
+
+
         PageInfo<Article> pageInfo = new PageInfo<Article>(arts);
         model.addAttribute("pageInfo",pageInfo);
         if(name!=null){
@@ -53,8 +66,10 @@ public class ArticleController {
     @RequestMapping("article")
     public String getArticle(Model model,
                              @RequestParam(value = "articleId",required = false)Integer art_id){
+
         Article article = articleMapper.selectByPrimaryKey(art_id);
         User user = userMapper.selectByPrimaryKey(article.getUser_id());
+
         User_Article user_article = new User_Article(article.getUser_id(),
                 user.getName(),
                 article.getArticle_id(),
@@ -63,40 +78,15 @@ public class ArticleController {
                 article.getPost_time(),
                 article.getLikes(),
                 article.getComment_account(),
-                article.getContent());
+                article.getContent(),
+                article.getMd_content());
+
         model.addAttribute("user_article",user_article);
 
         List<Comment> comments = commentService.getAll(art_id);
         model.addAttribute("comments",comments);
+
         return "article";
-    }
-
-    @RequestMapping("post")
-    public String postArticle(Model model,
-                              @RequestParam(value = "title",required = false)String title,
-                              @RequestParam(value = "content",required = false)String content,
-                              @RequestParam(value = "username",required = false)String name){
-        model.addAttribute("user",userMapper.selectByName(name));
-
-        String msg = "";
-        if(title!=null && content!=null){
-            Article article = new Article();
-            article.setTitle(title);
-            article.setUser_id(1);
-            article.setCategory_id(1);
-            article.setPost_time(new Date());
-            article.setContent(content);
-            article.setLikes(0);
-            article.setComment_account(0);
-            try{
-                articleMapper.insert(article);
-            }catch (Exception e){
-                msg = "Fail";
-                return "post";
-            }
-            return "redirect:/index";
-        }
-        return "post";
     }
 
 }

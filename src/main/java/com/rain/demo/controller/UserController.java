@@ -1,23 +1,13 @@
 package com.rain.demo.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.rain.demo.Dao.ArticleMapper;
 import com.rain.demo.Dao.UserMapper;
 import com.rain.demo.Service.ArticleService;
-import com.rain.demo.Service.UserService;
-import com.rain.demo.entity.Article;
 import com.rain.demo.entity.User;
-import com.rain.demo.entity.User_Article;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("")
@@ -64,7 +54,7 @@ public class UserController {
                 return "register";
             }
             model.addAttribute("msg",msg);
-            return "result";
+            return "redirect:/";
         }
         return "register";
     }

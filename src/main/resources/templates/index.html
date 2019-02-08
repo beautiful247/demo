@@ -6,18 +6,42 @@
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" href="/bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" th:href="@{/demo.css}" href="/demo.css">
     <script th:src="@{/jquery/jquery-3.3.1.min.js}" src="/jquery/jquery-3.3.1.min.js"></script>
-    <script th:src="@{/bootstrap/js/bootstrap.js}" src="/bootstrap/js/bootstrap.js"/>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="/bootstrap/js/bootstrap.js"></script>
     <title>Rain's Blog</title>
     <script>
     </script>
 </head>
 <body>
+<!-- 导航栏 -->
 <div class="navigator">
     <!--
     <form th:action="detail" th:if="${user}" method="post">
         <input type="submit" th:name="name" th:value="${user.name}"/>
     </form>
     -->
+    <div th:if="${user} and ${user.name} ne 'admin'" style="color: lightyellow">
+        <p th:text="${user.name}"></p>
+    </div>
+    <div th:if="${user} and ${user.name} eq 'admin'" style="color: lightyellow">
+        <form th:action="admin" method="post">
+            <input type="submit" th:name="username" th:value="${user.name}"/>
+        </form>
+    </div>
+    <!--
+    <form th:action="post" th:if="${user}" method="post">
+        <input style="display: none" type="text" th:name="username" th:value="${user.name}"/>
+        <input type="submit" value="Post"/>
+    </form>
+    -->
+    <!--
+    <a th:if="${user}" class="btn btn-primary" href="/post">Post</a>
+    -->
+    <div th:unless="${user}">
+        <a class="login_index" href="/login">Login</a>
+        <a class="regis_index" href="/register">Register</a>
+    </div>
+</div>
+<div class="search-query">
     <form class="form-search">
         <div class="input-append">
             <input type="text" class="span2 search-query" th:name="search">
@@ -30,21 +54,6 @@
         </div>
         -->
     </form>
-    <div th:if="${user}" style="color: lightyellow">
-        <p th:text="${user.name}"></p>
-    </div>
-    <form th:action="post" th:if="${user}" method="post">
-        <input style="display: none" type="text" th:name="username" th:value="${user.name}"/>
-        <input type="submit" value="Post"/>
-    </form>
-    <!--
-    <a th:if="${user}" class="btn btn-primary" href="/post">Post</a>
-    -->
-    <div th:unless="${user}">
-        <a class="login_index" href="/login">Login</a>
-        <a class="regis_index" href="/register">Register</a>
-    </div>
-
 </div>
 <div class="container" align="center" style="width: 50%">
     <div id="articles">

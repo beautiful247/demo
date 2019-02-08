@@ -378,6 +378,6 @@
     ,
     <include refid="Blob_Column_List" />
     from comment
-    where comment_id = #{art_id,jdbcType=INTEGER}
+    where article_id = #{art_id,jdbcType=INTEGER}
   </select>
 </mapper>
