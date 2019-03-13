@@ -62,7 +62,7 @@ public class AdminController {
         return "admin/?username=name&password=password";
     }
 
-    @RequestMapping("delete")
+    @RequestMapping("deleteArticle")
     public String deleteArticle(Model model,
                         @RequestParam(value = "username",required = false)String name,
                         @RequestParam(value = "password",required = false)String password,
@@ -70,6 +70,7 @@ public class AdminController {
         if(name!=null){
             User user = userMapper.selectByName(name);
             if(user != null){
+                articleMapper.deleteByPrimaryKey(articleId);
                 return "admin/?username=name&password=password";
             }else{
                 return "404";
