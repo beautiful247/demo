@@ -3,13 +3,22 @@ package com.rain.demo.controller;
 import com.rain.demo.Dao.ArticleMapper;
 import com.rain.demo.Dao.UserMapper;
 import com.rain.demo.entity.Article;
+import com.rain.demo.entity.User;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -22,37 +31,55 @@ public class AdminController {
 
     @RequestMapping("")
     public String admin(Model model,
-                        @RequestParam(value = "username",required = true)String name){
-        model.addAttribute("user",userMapper.selectByName(name));
-        return "admin/admin";
+                        @RequestParam(value = "username",required = false)String name,
+                        @RequestParam(value = "password",required = false)String password){
+        if(name!=null){
+            User user = userMapper.selectByName(name);
+            if(password.equals(user.getPassword())){
+                model.addAttribute("user",user);
+                return "admin/admin";
+            }else{
+                return "404";
+            }
+        }else{
+            return "admin/login";
+        }
     }
 
-    @RequestMapping("post")
-    public String postArticle(Model model,
-                              @RequestParam(value = "title",required = false)String title,
-                              @RequestParam(value = "editormd-markdown-textarea",required = false)String markdownContent,
-                              @RequestParam(value = "editormd-html-textarea",required = false)String htmlContent,
-                              @RequestParam(value = "username",required = false)String name){
-        model.addAttribute("user",userMapper.selectByName(name));
-        String msg = "";
-        if(title!=null && htmlContent!=null){
-            Article article = new Article();
-            article.setTitle(title);
-            article.setUser_id(1);
-            article.setCategory_id(1);
-            article.setPost_time(new Date());
-            article.setContent(htmlContent);
-            article.setLikes(0);
-            article.setComment_account(0);
-            article.setMd_content(markdownContent);
-            try{
-                articleMapper.insert(article);
-            }catch (Exception e){
-                msg = "Fail";
-                return "admin/post";
+    @RequestMapping("editArticle")
+    public String editArticle(Model model,
+                        @RequestParam(value = "username",required = false)String name,
+                        @RequestParam(value = "password",required = false)String password,
+                        @RequestParam(value = "articleId",required = true)Integer articleId,
+                        @RequestParam(value = "changed",required = true)Integer changed) {
+        if(changed == 0){
+            Article article = articleMapper.selectByPrimaryKey(articleId);
+            if(article!=null){
+                model.addAttribute("article", article);
+                return "admin/edit";
             }
-           return "redirect:/?username="+name;
         }
-        return "admin/post";
+        return "admin/?username=name&password=password";
     }
+
+    @RequestMapping("delete")
+    public String deleteArticle(Model model,
+                        @RequestParam(value = "username",required = false)String name,
+                        @RequestParam(value = "password",required = false)String password,
+                        @RequestParam(value = "articleId",required = true)Integer articleId) {
+        if(name!=null){
+            User user = userMapper.selectByName(name);
+            if(user != null){
+                return "admin/?username=name&password=password";
+            }else{
+                return "404";
+            }
+        }else{
+            return "admin";
+        }
+        
+    }
+    
+
+
 }

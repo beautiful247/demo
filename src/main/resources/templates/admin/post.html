@@ -5,76 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" href="/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" th:href="@{/editormd/css/editormd.css}" href="/editormd/css/editormd.css"/>
-    <link rel="stylesheet" th:href="@{/demo.css}" href="/demo.css">
-    <script th:src="@{/jquery/jquery-3.3.1.min.js}" src="/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/demo.css}" href="/css/demo.css"/>
+    <script th:src="@{/js/jquery-3.3.1.min.js}" src="/js/jquery-3.3.1.min.js"></script>
     <script th:src="@{/editormd/editormd.js}" src="/editormd/editormd.js"></script>
     <title>Post</title>
     <script type="text/javascript" th:inline="javascript">
         $(function() {
-            editormd("editor", {
-                width   : "90%",
+            var editor;
+            editor = editormd("editor", {
+                width   : "60%",
                 height  : 640,
                 syncScrolling : "single",
                 path    : "/editormd/lib/",
                 saveHTMLToTextarea:true
-            });
-        });
-        /*
-        function post() {
-            $.ajax({
-               type:"templates.admin.post",
-                url:"/admin/post",
-                data:{
-                   title:$("#title").val(),
-                   username:$("#name").val(),
-                    content:$("#htmlContent").val()
-                },
-                success:function (data) {
-                    alert("SUCCESS");
-                },
-                error:function () {
-                    alert("FAIL");
+
+                imageUpload: true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "/uploadImage",//注意你后端的上传图片服务地址
+                onload: function(){
+                    this.width("100%");
+                    this.height(480);
                 }
             });
-        }
-        */
+        });
     </script>
 </head>
 <body>
-<!-- 导航栏 -->
-<div class="navigator">
-    <div th:if="${user}" style="color: lightyellow">
-        <p th:text="${user.name}"></p>
-    </div>
-</div>
-
 <form class="form-control" action="/admin/post">
-    <div>
-        <input id="title" type="text" th:name="title"/>
-        <input id="user" type="text" th:name="username" style="display: none"/>
+    <div class="outline">
+        <input type="text" th:name="title"/>
+        <input type="test" th:name="digit"/>
     </div>
-    <div id="editor">
+    <div class="editor">
         <textarea class="editormd-markdown-textarea" th:name="editormd-markdown-textarea" id="markdownContent"></textarea>
         <textarea class="editormd-html-textarea" th:name="editormd-html-textarea" id="htmlContent"></textarea>
     </div>
-    <input class="btn btn-primary" type="submit" value="Post">
+    <input type="submit" value="Post">
 </form>
 
-<!-- 提交表单 -->
-<!--
-<div class="post">
-    <form class="form-control">
-        <div>
-            <input id="title" type="text"/>
-            <input id="user" type="text" style="display: none"/>
-        </div>
-        <div id="editor">
-            <textarea class="editormd-markdown-textarea" name="editormd-markdown-textarea" id="markdownContent"></textarea>
-            <textarea class="editormd-html-textarea" name="editormd-html-textarea" id="htmlContent"></textarea>
-        </div>
-        <button class="btn btn-primary" onclick="post()">Post</button>
-    </form>
-</div>
--->
 </body>
 </html>

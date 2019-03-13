@@ -7,5 +7,5 @@ import java.util.List;
 
 @Service
 public interface CommentService {
-    List<Comment> getAll(int art_id);
+    List<Comment> getAll(int article_id);
 }
