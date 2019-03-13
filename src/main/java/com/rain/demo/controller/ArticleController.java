@@ -6,6 +6,7 @@ import com.rain.demo.Dao.ArticleMapper;
 import com.rain.demo.Dao.UserMapper;
 import com.rain.demo.Service.ArticleService;
 import com.rain.demo.Service.CommentService;
+import com.rain.demo.Service.UserService;
 import com.rain.demo.entity.Article;
 import com.rain.demo.entity.Comment;
 import com.rain.demo.entity.User;
@@ -23,13 +24,15 @@ import java.util.*;
 @RequestMapping("")
 public class ArticleController {
     @Autowired
+    private UserMapper userMapper;
+    @Autowired
     private ArticleMapper articleMapper;
     @Autowired
     private ArticleService articleService;
     @Autowired
     private CommentService commentService;
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @RequestMapping("")
     public String index(Model model,

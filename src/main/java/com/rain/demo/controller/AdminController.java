@@ -2,6 +2,9 @@ package com.rain.demo.controller;
 
 import com.rain.demo.Dao.ArticleMapper;
 import com.rain.demo.Dao.UserMapper;
+import com.rain.demo.Service.ArticleService;
+import com.rain.demo.Service.CommentService;
+import com.rain.demo.Service.UserService;
 import com.rain.demo.entity.Article;
 import com.rain.demo.entity.User;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -28,6 +31,12 @@ public class AdminController {
     private UserMapper userMapper;
     @Autowired
     private ArticleMapper articleMapper;
+    @Autowired
+    private ArticleService articleService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("")
     public String admin(Model model,
