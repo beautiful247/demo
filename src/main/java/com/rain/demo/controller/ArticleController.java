@@ -46,7 +46,7 @@ public class ArticleController {
 
     @RequestMapping("article")
     public String article(Model model,
-                          @RequestParam(value = "art_id",required = true)Integer art_id){
+                          @RequestParam(value = "article_id",required = true)Integer art_id){
         Article article = articleMapper.selectByPrimaryKey(art_id);
         model.addAttribute("article",article);
         return "article";

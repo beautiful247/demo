@@ -21,7 +21,7 @@
             <h1 th:text="${article.title}"></h1>
             <p th:text="${article.digit}"></p>
             <form method="post" th:action="article">
-                <input type="text" th:name="art_id" th:value="${article.article_id}" style="display: none"/>
+                <input type="text" th:name="article_id" th:value="${article.article_id}" style="display: none"/>
                 <input type="submit" value="view more"/>
             </form>
         </div>

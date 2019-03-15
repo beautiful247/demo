@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/demo.css}" href="/css/demo.css"/>
     <script th:src="@{/js/jquery-3.3.1.min.js}" src="/js/jquery-3.3.1.min.js"></script>
     <script th:src="@{/bootstrap/js/bootstrap.js}" src="/bootstrap/js/bootstrap.js"></script>
-    <title>Admin</title>
+    <title>User Profile</title>
 </head>
 <body>
 <div class="container">
@@ -23,6 +23,20 @@
             <div class="col-md-3">
                 <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password})}">Articles</a>
             </div>
+        </div>
+        <div class="col-md-12">
+            <table>
+                <tr>
+                    <td>User Id</td>
+                    <td>User name</td>
+                    <td>Password</td>
+                </tr>
+                <tr>
+                    <td th:text="${user.user_id}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.password}"></td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

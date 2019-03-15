@@ -1,5 +1,7 @@
 package com.rain.demo.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.rain.demo.Dao.ArticleMapper;
 import com.rain.demo.Dao.UserMapper;
 import com.rain.demo.Service.ArticleService;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -48,7 +51,7 @@ public class AdminController {
                 model.addAttribute("user",user);
                 return "admin/admin";
             }else{
-                return "404";
+                return "admin/login";
             }
         }else{
             return "admin/login";
@@ -68,7 +71,7 @@ public class AdminController {
                 return "admin/edit";
             }
         }
-        return "admin/?username=name&password=password";
+        return "redirect:admin/?username=name&password=password";
     }
 
     @RequestMapping("deleteArticle")
@@ -80,14 +83,52 @@ public class AdminController {
             User user = userMapper.selectByName(name);
             if(user != null){
                 articleMapper.deleteByPrimaryKey(articleId);
-                return "admin/?username=name&password=password";
+                return "redirect:admin/articleAdmin?username=name&password=password";
             }else{
                 return "404";
             }
         }else{
-            return "admin";
+            return "redirect:admin";
         }
         
+    }
+
+    @RequestMapping("articleAdmin")
+    public String articleAdmin(Model model,
+                               @RequestParam(value = "username",required = false)String name,
+                               @RequestParam(value = "password",required = false)String password,
+                               @RequestParam(defaultValue = "1",value = "pageNum")Integer pageNum){
+        if(name!=null){
+            User user = userService.selectByName(name);
+            if(password.equals(user.getPassword())){
+                PageHelper.startPage(pageNum,10);
+                List<Article> arts = articleService.getAll();
+                PageInfo<Article> pageInfo = new PageInfo<Article>(arts);
+                model.addAttribute("pageInfo",pageInfo);
+                model.addAttribute("user",user);
+                return "admin/articleAdmin";
+            }else{
+                return "404";
+            }
+        }else{
+            return "redirect:admin";
+        }
+    }
+
+    @RequestMapping("profile")
+    public String profile(Model model,
+                          @RequestParam(value = "username",required = false)String name,
+                          @RequestParam(value = "password",required = false)String password){
+        if(name!=null){
+            User user = userService.selectByName(name);
+            if(password.equals(user.getPassword())){
+                model.addAttribute("user",user);
+                return "admin/profile";
+            }else{
+                return "redirect:/admin";
+            }
+        }
+        return "404";
     }
     
 
