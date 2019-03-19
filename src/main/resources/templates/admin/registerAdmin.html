@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" href="/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" th:href="@{/css/demo.css}" href="/css/demo.css"/>
+    <script th:src="@{/js/jquery-3.3.1.min.js}" src="/js/jquery-3.3.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="/bootstrap/js/bootstrap.js"></script>
+    <title>Register Admin</title>
+</head>
+<body>
+<h1>Welcome,<span th:text="${user.name}"></span></h1>
+<div class="row">
+    <div class="col-md-10">
+        <div class="col-md-3">
+            <a class="btn" th:href="@{/admin/profile(username=${user.name},password=${user.password})}">Profile</a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn" th:href="@{/admin/userAdmin(username=${user.name},password=${user.password})}">Users</a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password})}">Articles</a>
+        </div>
+        <div class="col-md-3" th:if="${user.role_id==1}">
+            <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password})}">RegisterAdmin</a>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <tr>
+                <td>Register Id</td>
+                <td>Name</td>
+                <td>Corporation</td>
+                <td>Phone</td>
+                <td>Email</td>
+                <td>Detail</td>
+                <td></td>
+            </tr>
+            <tr th:each="register:${pageInfo.list}">
+                <td th:text="${register.register_id}"></td>
+                <td th:text="${register.name}"></td>
+                <td th:text="${register.corporation}"></td>
+                <th th:text="${register.phone}"></th>
+                <td th:text="${register.email}"></td>
+                <td th:text="${register.detail}"></td>
+                <td th:if="${register.status==0}">
+                    <a class="btn" th:href="@{/admin/agreeRegister(username=${user.name},password=${user.password},registerId=${register.register_id})}">Agree</a>
+                    <a class="btn btn-danger" th:href="@{/admin/denyRegister(username=${user.name},password=${user.password},registerId=${register.register_id})}">Deny</a>
+                </td>
+                <td th:if="${register.status==1}">
+                    <span>已注册</span>
+                </td>
+                <td th:if="${register.status==2}">
+                    <span>被拒绝</span>
+                </td>
+            </tr>
+        </table>
+        <div class="row">
+            <div class="col-md-3" th:if="${pageInfo.hasPreviousPage}">
+                <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.prePage})}">Previous</a>
+            </div>
+            <div class="col-md-3" th:if="${pageInfo.hasNextPage}">
+                <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.nextPage})}">Next</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

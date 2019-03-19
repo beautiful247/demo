@@ -9,5 +9,9 @@ import java.util.List;
 public interface ArticleService {
     List<Article> getAll();
 
-    int deleteArt(int id);
+    Article selectByPrimaryKey(Integer art_id);
+
+    int deleteArt(int art_id);
+
+    List<Article> selectByAuthor(String author);
 }

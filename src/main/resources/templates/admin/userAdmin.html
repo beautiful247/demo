@@ -10,6 +10,51 @@
     <title>Users Admin</title>
 </head>
 <body>
-
+<div class="container">
+    <h1>Welcome,<span th:text="${user.name}"></span></h1>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="col-md-3">
+                <a class="btn" th:href="@{/admin/profile(username=${user.name},password=${user.password})}">Profile</a>
+            </div>
+            <div class="col-md-3">
+                <a class="btn" th:href="@{/admin/userAdmin(username=${user.name},password=${user.password})}">Users</a>
+            </div>
+            <div class="col-md-3">
+                <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password})}">Articles</a>
+            </div>
+            <div class="col-md-3" th:if="${user.role_id==1}">
+                <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password})}">RegisterAdmin</a>
+            </div>
+        </div>
+    </div>
+    <div class="user_panel">
+        <table class="table table-hover">
+            <tr>
+                <td>Register Id</td>
+                <td>Name</td>
+                <td>Corporation</td>
+                <td>Phone</td>
+                <td>Email</td>
+                <td>Detail</td>
+                <td></td>
+            </tr>
+            <tr th:each="register:${pageInfo.list}">
+                <td th:text="${register.register_id}"></td>
+                <td th:text="${register.name}"></td>
+                <td th:text="${register.corporation}"></td>
+                <th th:text="${register.phone}"></th>
+                <td th:text="${register.email}"></td>
+                <td th:text="${register.detail}"></td>
+                <td>
+                    <a class="btn" th:href="@{/admin/alterUser(username=${user.name},password=${user.password},userId=${user.user_id})}">Alter</a>
+                    <a class="btn btn-danger" th:href="@{/admin/deleteUser(username=${user.name},password=${user.password},userId=${user.user_id})}">Delete</a>
+                </td>
+            </tr>
+        </table>
+        <a class="btn" th:href="@{/admin/userAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">Previous</a>
+        <a class="btn" th:href="@{/admin/userAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">Next</a>
+    </div>
+</div>
 </body>
 </html>

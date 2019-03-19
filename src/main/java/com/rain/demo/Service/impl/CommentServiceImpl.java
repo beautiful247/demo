@@ -17,4 +17,24 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> getAll(int article_id) {
         return commentMapper.getAll(article_id);
     }
+
+    @Override
+    public int delectByPrimaryKey(Integer comment_id) {
+        return commentMapper.deleteByPrimaryKey(comment_id);
+    }
+
+    @Override
+    public int insert(Comment record) {
+        return commentMapper.insert(record);
+    }
+
+    @Override
+    public Comment selectByPrimaryKey(Integer comment_id) {
+        return commentMapper.selectByPrimaryKey(comment_id);
+    }
+
+    @Override
+    public int updateByPrimaryKey(Comment record) {
+        return commentMapper.updateByPrimaryKey(record);
+    }
 }

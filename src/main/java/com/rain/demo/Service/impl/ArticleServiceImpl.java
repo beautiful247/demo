@@ -10,9 +10,8 @@ import java.util.List;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
-
     @Autowired
-    ArticleMapper articleMapper;
+    private ArticleMapper articleMapper;
 
     @Override
     public List<Article> getAll() {
@@ -20,13 +19,17 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public int deleteArt(int id) {
-        try{
-            articleMapper.deleteByPrimaryKey(id);
-            return 0;
-        }catch (Exception e){
-            System.out.println("Error!");
-            return -1;
-        }
+    public Article selectByPrimaryKey(Integer art_id) {
+        return articleMapper.selectByPrimaryKey(art_id);
+    }
+
+    @Override
+    public int deleteArt(int art_id) {
+        return articleMapper.deleteByPrimaryKey(art_id);
+    }
+
+    @Override
+    public List<Article> selectByAuthor(String author) {
+        return articleMapper.selectByAuthor(author);
     }
 }

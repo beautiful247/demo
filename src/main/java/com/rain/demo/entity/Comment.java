@@ -162,4 +162,15 @@ public class Comment {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "comment_id=" + comment_id +
+                ", article_id=" + article_id +
+                ", user_name=" + user_name +
+                ", comm_time=" + comm_time +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

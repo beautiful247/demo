@@ -7,5 +7,16 @@ import java.util.List;
 
 @Service
 public interface UserService {
+
+    int deleteByPrimaryKey(Integer user_id);
+
+    int insert(User record);
+
+    User selectByPrimaryKey(Integer user_id);
+
+    int updateByPrimaryKey(User record);
+
     User selectByName(String name);
+
+    List<User> getAll();
 }

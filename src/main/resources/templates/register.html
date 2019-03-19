@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" href="/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" th:href="@{/css/demo.css}" href="/css/demo.css"/>
+    <script th:src="@{/js/jquery-3.3.1.min.js}" src="/js/jquery-3.3.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="/bootstrap/js/bootstrap.js"></script>
+    <title>Register</title>
+</head>
+<body>
+<div class="header">
+
+</div>
+<div class="wrapper">
+    <div class="register">
+        <form action="/register">
+            <p>账号：<input type="text" name="username"/></p>
+            <p>密码：<input type="password" name="password"/></p>
+            <p>确认密码：<input type="text" name="confirm_password"/></p>
+            <p>电话：<input type="text" name="phone"/></p>
+            <p>邮件：<input type="text" name="email"/></p>
+            <p>企业：<input type="text" name="corporation"/></p>
+            <p>备注：<input type="text" name="detail"/></p>
+            <input class="btn" type="submit" value="注册"/>
+        </form>
+    </div>
+</div>
+
+<div class="footer">
+
+</div>
+</body>
+</html>
