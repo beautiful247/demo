@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -18,6 +19,16 @@ public class CommentServiceImplTest {
 
     @Autowired
     private CommentService commentService;
+
+    @Test
+    public void inser(){
+        Comment comment = new Comment();
+        comment.setUser_name("apple");
+        comment.setContent("Hello");
+        comment.setComm_time(new Date());
+        comment.setArticle_id(1);
+        commentService.insert(comment);
+    }
 
     @Test
     public void getAll() {

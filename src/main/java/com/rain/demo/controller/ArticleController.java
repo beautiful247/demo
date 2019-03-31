@@ -92,4 +92,19 @@ public class ArticleController {
         return "register";
     }
 
+    @RequestMapping("comment_post")
+    public String postComment(Model model,
+                            @RequestParam(value = "article_id",required = false)Integer art_id,
+                            @RequestParam(value = "user",required = false)String user,
+                            @RequestParam(value = "comment_content",required = false)String content){
+        Article article = articleService.selectByPrimaryKey(art_id);
+        Comment comment = new Comment();
+        comment.setArticle_id(art_id);
+        comment.setComm_time(new Date());
+        comment.setContent(content);
+        comment.setUser_name(user);
+        commentService.insert(comment);
+        return "redirect:/article?article_id="+art_id;
+    }
+
 }

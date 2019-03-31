@@ -44,19 +44,24 @@
         </div>
         <div class="information">
             <span>Likes:<p th:text="${article.likes}"></p></span>
-            <span>Comment<p th:text=""></p></span>
         </div>
     </div>
+    <! 评论窗口 -->
     <div class="comment">
+        <div class="comment_content">
+            <div th:each="comment:${comments}">
+                <p th:text="${comment.user_name}"></p>
+                <p th:text="${comment.content}"></p>
+                <p th:text="${comment.comm_time}"></p>
+            </div>
+        </div>
         <div class="comment_post">
             <form action="/comment_post" method="post" style="width: 100%">
-                <input type="text" name="user"/>
-                <input type="text" name="cotact"/>
+                <input type="text" name="article_id" th:value="${article.article_id}" style="display: none"/>
+                <p>Your Contact:</p><input type="text" name="user"/>
                 <textarea name="comment_content" class="comment-content"></textarea>
+                <input type="submit" class="btn" value="Post"/>
             </form>
-        </div>
-        <div class="comment_content">
-
         </div>
     </div>
 </div>
