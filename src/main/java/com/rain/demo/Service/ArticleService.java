@@ -14,4 +14,12 @@ public interface ArticleService {
     int deleteArt(int art_id);
 
     List<Article> selectByAuthor(String author);
+
+    int insert(Article record);
+
+    List<Article> getByCategory(Integer category_id);
+
+    List<Article> getByAuthor(String author);
+
+    int updateByPrimaryKey(Article record);
 }

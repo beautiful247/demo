@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -71,6 +72,29 @@ public class ArticleServiceTest {
         for(int i=0;i<test.size();i++){
             System.out.println(test.get(i).toString());
         }
+    }
+
+    @Test
+    public void selectAll(){
+        List<Article> test = articleService.getAll();
+        for(int i=0;i<test.size();i++){
+            System.out.println(test.get(i).toString());
+        }
+    }
+
+    @Test
+    public void testInsert(){
+        Article article = new Article();
+        article.setCategory(1);
+        article.setTitle("Final test");
+        article.setDigit("This is the final test");
+        article.setAuthor("admin");
+        article.setLikes(0);
+        article.setComment_account(0);
+        article.setMd_content("# This is the final test");
+        article.setContent("This is the final test");
+        article.setPost_time(new Date());
+        System.out.println(articleService.insert(article));
     }
 
 }

@@ -14,8 +14,8 @@ public class RegisterServiceImpl implements RegisterService {
     private RegisterMapper registerMapper;
 
     @Override
-    public List<Register> getAll() {
-        return registerMapper.getAll();
+    public List<Register> getAllReg() {
+        return registerMapper.getAllReg();
     }
 
     @Override

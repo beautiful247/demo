@@ -3,12 +3,14 @@ package com.rain.demo.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rain.demo.Dao.ArticleMapper;
+import com.rain.demo.Dao.CategoryMapper;
 import com.rain.demo.Dao.UserMapper;
 import com.rain.demo.Service.ArticleService;
 import com.rain.demo.Service.CommentService;
 import com.rain.demo.Service.RegisterService;
 import com.rain.demo.Service.UserService;
 import com.rain.demo.entity.Article;
+import com.rain.demo.entity.Category;
 import com.rain.demo.entity.Register;
 import com.rain.demo.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.jws.WebParam;
+import java.util.Date;
 import java.util.List;
 
 
@@ -37,40 +40,121 @@ public class AdminController {
     private UserService userService;
     @Autowired
     private RegisterService registerService;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     @RequestMapping("")
     public String admin(Model model,
                         @RequestParam(value = "username",required = false)String name,
                         @RequestParam(value = "password",required = false)String password){
         if(name!=null){
-            User user = userMapper.selectByName(name);
-            if(password.equals(user.getPassword())){
-                model.addAttribute("user",user);
-                return "admin/admin";
-            }else{
+            User user = userService.selectByName(name);
+            if(user==null){
                 return "admin/login";
             }
-        }else{
-            return "admin/login";
+            if(password.equals(password)){
+                model.addAttribute("user",user);
+                return "admin/admin";
+            }
+        }
+        return "admin/login";
+    }
+
+    @RequestMapping("postArticle")
+    public String editArticle(Model model,
+                              @RequestParam(value = "username",required = false)String name,
+                              @RequestParam(value = "password",required = false)String password,
+                              @RequestParam(value = "title",required = false)String title,
+                              @RequestParam(value = "category_id",required = false)Integer cat_id,
+                              @RequestParam(value = "digit",required = false)String digit,
+                              @RequestParam(value = "editormd-html-textarea",required = false)String content,
+                              @RequestParam(value = "editormd-markdown-textarea",required = false)String md_content){
+        User user = userService.selectByName(name);
+        if(title==null){
+            if(user!=null){
+                if(password.equals(user.getPassword())){
+                    model.addAttribute("cats",categoryMapper.getAllCat());
+                    model.addAttribute("user",user);
+                    return "admin/post";
+                }else{
+                    return "404";
+                }
+            }else{
+                return "redirect:/admin";
+            }
+        }else {
+            if(user!=null){
+                if(password.equals(user.getPassword())){
+                    Article article = new Article();
+                    article.setDigit(digit);
+                    article.setTitle(title);
+                    article.setCategory(cat_id);
+                    article.setAuthor(name);
+                    article.setLikes(0);
+                    article.setComment_account(0);
+                    article.setContent(content);
+                    article.setMd_content(md_content);
+                    article.setPost_time(new Date());
+                    articleService.insert(article);
+                    return "redirect:/admin?username=" + name + "&password=" + password;
+                }else{
+                    return "404";
+                }
+            }else{
+                return "redirect:/admin";
+            }
         }
     }
 
+    //编辑文章
     @RequestMapping("editArticle")
     public String editArticle(Model model,
                         @RequestParam(value = "username",required = false)String name,
                         @RequestParam(value = "password",required = false)String password,
-                        @RequestParam(value = "articleId",required = true)Integer articleId,
-                        @RequestParam(value = "changed",required = true)Integer changed) {
-        if(changed == 0){
-            Article article = articleMapper.selectByPrimaryKey(articleId);
-            if(article!=null){
-                model.addAttribute("article", article);
-                return "admin/edit";
-            }
+                        @RequestParam(value = "articleId",required = false)Integer art_id,
+                        @RequestParam(value = "title",required = false)String title,
+                        @RequestParam(value = "category_id",required = false)Integer cat_id,
+                        @RequestParam(value = "digit",required = false)String digit,
+                        @RequestParam(value = "editormd-html-textarea",required = false)String content,
+                        @RequestParam(value = "editormd-markdown-textarea",required = false)String md_content) {
+        User user = userService.selectByName(name);
+        if(user==null){
+            return "redirect:/admin";
         }
-        return "redirect:admin/?username=name&password=password";
+        if(!password.equals(user.getPassword())||articleService.selectByPrimaryKey(art_id)==null){
+            return "404";
+        }
+        if(!articleService.selectByPrimaryKey(art_id).getAuthor().equals(name)){
+            return "404";
+        }
+        model.addAttribute("user",user);
+        model.addAttribute("article",articleService.selectByPrimaryKey(art_id));
+        model.addAttribute("category",categoryMapper.getAllCat());
+        return "/admin/editArticle";
     }
 
+    @RequestMapping("changeArticle")
+    public String changeArticle(Model model,
+                              @RequestParam(value = "username",required = false)String name,
+                              @RequestParam(value = "password",required = false)String password,
+                              @RequestParam(value = "articleId",required = false)Integer art_id,
+                              @RequestParam(value = "title",required = false)String title,
+                              @RequestParam(value = "category_id",required = false)Integer cat_id,
+                              @RequestParam(value = "digit",required = false)String digit,
+                              @RequestParam(value = "editormd-html-textarea",required = false)String content,
+                              @RequestParam(value = "editormd-markdown-textarea",required = false)String md_content) {
+
+        Article article = articleService.selectByPrimaryKey(art_id);
+        article.setTitle(title);
+        article.setCategory(cat_id);
+        article.setDigit(digit);
+        article.setContent(content);
+        article.setMd_content(md_content);
+        articleService.updateByPrimaryKey(article);
+        return "redirect:/admin?username="+name+"&password="+password;
+    }
+
+    //删除文章
     @RequestMapping("deleteArticle")
     public String deleteArticle(Model model,
                         @RequestParam(value = "username",required = false)String name,
@@ -78,9 +162,9 @@ public class AdminController {
                         @RequestParam(value = "articleId",required = true)Integer articleId) {
         if(name!=null){
             User user = userMapper.selectByName(name);
-            if(user != null){
+            if(user != null && password.equals(user.getPassword())){
                 articleMapper.deleteByPrimaryKey(articleId);
-                return "redirect:admin/articleAdmin?username=name&password=password";
+                return "redirect:/admin/articleAdmin?username="+name+"&password="+password;
             }else{
                 return "404";
             }
@@ -90,6 +174,7 @@ public class AdminController {
         
     }
 
+    //文章管理
     @RequestMapping("articleAdmin")
     public String articleAdmin(Model model,
                                @RequestParam(value = "username",required = false)String name,
@@ -97,9 +182,12 @@ public class AdminController {
                                @RequestParam(defaultValue = "1",value = "pageNum")Integer pageNum){
         if(name!=null){
             User user = userService.selectByName(name);
+            if(user==null){
+                return "admin/login";
+            }
             if(password.equals(user.getPassword())){
                 PageHelper.startPage(pageNum,10);
-                List<Article> arts = articleService.getAll();
+                List<Article> arts = articleService.selectByAuthor(user.getName());
                 PageInfo<Article> pageInfo = new PageInfo<Article>(arts);
                 model.addAttribute("pageInfo",pageInfo);
                 model.addAttribute("user",user);
@@ -108,16 +196,20 @@ public class AdminController {
                 return "404";
             }
         }else{
-            return "redirect:admin";
+            return "redirect:/admin";
         }
     }
 
+    //用户个人信息
     @RequestMapping("profile")
     public String profile(Model model,
                           @RequestParam(value = "username",required = false)String name,
                           @RequestParam(value = "password",required = false)String password){
         if(name!=null){
             User user = userService.selectByName(name);
+            if(user==null){
+                return "admin/login";
+            }
             if(password.equals(user.getPassword())){
                 model.addAttribute("user",user);
                 return "admin/profile";
@@ -128,6 +220,7 @@ public class AdminController {
         return "404";
     }
 
+    //注册申请管理
     @RequestMapping("registerAdmin")
     public String registerAdmin(Model model,
                                 @RequestParam(value = "username",required = false)String name,
@@ -137,10 +230,10 @@ public class AdminController {
         if (user == null) {
             return "redirect:/admin";
         } else {
-            if (user.getRole_id()==1&&password.equals(user.getPassword())) {
+            if (password.equals(user.getPassword())) {
                 model.addAttribute("user", user);
                 PageHelper.startPage(pageNum,10);
-                List<Register> registers = registerService.getAll();
+                List<Register> registers = registerService.getAllReg();
                 PageInfo<Register> pageInfo = new PageInfo<Register>(registers);
                 model.addAttribute("pageInfo",pageInfo);
                 return "admin/registerAdmin";
@@ -150,6 +243,7 @@ public class AdminController {
 
     }
 
+    //同意注册申请
     @RequestMapping("agreeRegister")
     public String agreeRegister(Model model,
                                 @RequestParam(value = "username",required = false)String name,
@@ -157,9 +251,9 @@ public class AdminController {
                                 @RequestParam(value = "registerId",required = false)Integer register_id){
         User user = userService.selectByName(name);
         if (user == null) {
-            return "redirect:/admin";
+            return "redirect:/";
         } else {
-            if (user.getRole_id()==1&&password.equals(user.getPassword())) {
+            if (password.equals(user.getPassword())) {
                 Register register = registerService.selectByPrimaryKey(register_id);
                 register.setStatus(1);
                 User new_user = new User();
@@ -170,12 +264,13 @@ public class AdminController {
                 new_user.setEmail(register.getEmail());
                 new_user.setCorporation(register.getCorporation());
                 userService.insert(new_user);
-                return "admin";
+                return "redirect:/admin/userAdmin?username="+name+"&password="+password;
             }
         }
         return "404";
     }
 
+    //拒绝注册申请
     @RequestMapping("denyRegister")
     public String denyRegister(Model model,
                                @RequestParam(value = "username",required = false)String name,
@@ -185,37 +280,40 @@ public class AdminController {
         if (user == null) {
             return "redirect:/admin";
         } else {
-            if (user.getRole_id()==1&&password.equals(user.getPassword())) {
+            if (password.equals(user.getPassword())) {
                 Register register = registerService.selectByPrimaryKey(register_id);
                 register.setStatus(2);
-                return "admin";
+                return "redirect:/admin/userAdmin?username="+name+"&password="+password;
             }
         }
         return "404";
     }
 
+    //用户管理
     @RequestMapping("userAdmin")
     public String userAdmin(Model model,
                             @RequestParam(value = "username",required = false)String name,
                             @RequestParam(value = "password",required = false)String password,
                             @RequestParam(defaultValue = "1",value = "pageNum")Integer pageNum){
-       User user = userService.selectByName(name);
-        if (user == null) {
-            return "redirect:/admin";
-        } else {
-            if (user.getRole_id()==1&&password.equals(user.getPassword())) {
+        User user = userService.selectByName(name);
+        if(user!=null){
+            if(password.equals(user.getPassword())){
                 model.addAttribute("user",user);
-                List<User> users = userService.getAll();
                 PageHelper.startPage(pageNum,10);
-                List<Register> registers = registerService.getAll();
-                PageInfo<Register> pageInfo = new PageInfo<Register>(registers);
+                List<User> users = userService.getAll();
+                PageInfo<User> pageInfo = new PageInfo<User>(users);
                 model.addAttribute("pageInfo",pageInfo);
                 return "/admin/userAdmin";
+            }else{
+                return "redirect:/admin";
             }
+
+        }else{
+            return "redirect:/admin";
         }
-        return "404";
     }
 
+    //修改用户信息
     @RequestMapping("alterUser")
     public String alterUser(Model model,
                             @RequestParam(value = "username",required = false)String name,
@@ -225,7 +323,7 @@ public class AdminController {
         if (user == null) {
             return "redirect:/admin";
         } else {
-            if (user.getRole_id()==1&&password.equals(user.getPassword())) {
+            if (password.equals(user.getPassword())) {
                 User alter_user = userService.selectByPrimaryKey(user_id);
                 model.addAttribute("alter_user",alter_user);
                 return "admin/alterUser";
@@ -234,6 +332,7 @@ public class AdminController {
         return "404";
     }
 
+    //删除用户
     @RequestMapping("deleteUser")
     public String deleteUser(Model model,
                              @RequestParam(value = "username",required = false)String name,
@@ -243,9 +342,9 @@ public class AdminController {
         if (user == null) {
             return "redirect:/admin";
         } else {
-            if (user.getRole_id()==1&&password.equals(user.getPassword())) {
+            if (password.equals(user.getPassword())) {
                 userService.deleteByPrimaryKey(user_id);
-                return "redirect:/admin/userAdmin?username=name&password=password";
+                return "redirect:/admin/userAdmin?username="+name+"&password="+password;
             }
         }
         return "404";

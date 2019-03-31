@@ -23,7 +23,7 @@
             <div class="col-md-3">
                 <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password})}">Articles</a>
             </div>
-            <div class="col-md-3" th:if="${user.role_id==1}">
+            <div class="col-md-3">
                 <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password})}">RegisterAdmin</a>
             </div>
         </div>
@@ -36,16 +36,14 @@
                 <td>Corporation</td>
                 <td>Phone</td>
                 <td>Email</td>
-                <td>Detail</td>
                 <td></td>
             </tr>
-            <tr th:each="register:${pageInfo.list}">
-                <td th:text="${register.register_id}"></td>
-                <td th:text="${register.name}"></td>
-                <td th:text="${register.corporation}"></td>
-                <th th:text="${register.phone}"></th>
-                <td th:text="${register.email}"></td>
-                <td th:text="${register.detail}"></td>
+            <tr th:each="users:${pageInfo.list}">
+                <td th:text="${users.user_id}"></td>
+                <td th:text="${users.name}"></td>
+                <td th:text="${users.corporation}"></td>
+                <th th:text="${users.phone}"></th>
+                <td th:text="${users.email}"></td>
                 <td>
                     <a class="btn" th:href="@{/admin/alterUser(username=${user.name},password=${user.password},userId=${user.user_id})}">Alter</a>
                     <a class="btn btn-danger" th:href="@{/admin/deleteUser(username=${user.name},password=${user.password},userId=${user.user_id})}">Delete</a>

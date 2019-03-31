@@ -34,15 +34,28 @@
 <div class="wrapper">
     <div id="view_detail">
         <h1 th:text="${article.title}"></h1>
+        <div class="information">
+            <span>Author:<p th:text="${article.author}"></p></span>
+            <span>Post Time:<p th:text="${article.post_time}"></p></span>
+            <span>Category:<p th:text="${article.category}"></p></span>
+        </div>
         <div id="testEditormd">
             <textarea id="test" th:inline="text" style="display: none">[[${article.md_content}]]</textarea>
         </div>
+        <div class="information">
+            <span>Likes:<p th:text="${article.likes}"></p></span>
+            <span>Comment<p th:text=""></p></span>
+        </div>
     </div>
     <div class="comment">
-        <div class="comment_content">
-
+        <div class="comment_post">
+            <form action="/comment_post" method="post" style="width: 100%">
+                <input type="text" name="user"/>
+                <input type="text" name="cotact"/>
+                <textarea name="comment_content" class="comment-content"></textarea>
+            </form>
         </div>
-        <div class="post_comment">
+        <div class="comment_content">
 
         </div>
     </div>

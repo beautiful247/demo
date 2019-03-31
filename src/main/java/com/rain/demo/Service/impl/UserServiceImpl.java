@@ -16,11 +16,6 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User selectByName(String name) {
-        return userMapper.selectByName(name);
-    }
-
-    @Override
     public List<User> getAll() {
         return userMapper.getAll();
     }
@@ -44,5 +39,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateByPrimaryKey(User record) {
         return userMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public User selectByName(String name) {
+        return userMapper.selectByName(name);
     }
 }

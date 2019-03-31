@@ -19,7 +19,7 @@ public class RegisterServiceTest {
 
     @Test
     public void getAll(){
-        List<Register> test = registerService.getAll();
+        List<Register> test = registerService.getAllReg();
         for(int i=0;i<test.size();i++){
             System.out.println(test.get(i).toString());
         }

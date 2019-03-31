@@ -12,12 +12,12 @@
     <script type="text/javascript" th:inline="javascript">
         $(function() {
             var editor;
-            editor = editormd("editor", {
+            editor = editormd("test-editormd", {
                 width   : "60%",
                 height  : 640,
                 syncScrolling : "single",
                 path    : "/editormd/lib/",
-                saveHTMLToTextarea:true
+                saveHTMLToTextarea:true,
 
                 imageUpload: true,
                 imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
@@ -44,22 +44,34 @@
             <div class="col-md-3">
                 <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password})}">Articles</a>
             </div>
-            <div class="col-md-3" th:if="${user.role_id==1}">
+            <div class="col-md-3">
                 <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password})}">RegisterAdmin</a>
             </div>
         </div>
     </div>
+    <div class="seq10"></div>
     <div class="post">
-        <form class="form-control" action="/admin/post">
+        <form action="/admin/postArticle">
             <div class="outline">
-                <input type="text" th:name="title"/>
-                <input type="test" th:name="digit"/>
+                <div class="modal-title">
+                    <input type="text" name="username" th:value="${user.name}" style="display: none;"/>
+                    <input type="password" name="password" th:value="${user.password}" style="display: none;"/>
+                    <input type="text" th:name="title"/>
+                </div>
+                <div>
+                    <select name="category_id">
+                        <option th:each="cat:${cats}" th:value="${cat.category_id}" th:text="${cat.category_name}"></option>
+                    </select>
+                </div>
+                <div class="modal-title">
+                    <input type="test" th:name="digit"/>
+                </div>
             </div>
-            <div class="editor">
-                <textarea class="editormd-markdown-textarea" th:name="editormd-markdown-textarea" id="markdownContent"></textarea>
-                <textarea class="editormd-html-textarea" th:name="editormd-html-textarea" id="htmlContent"></textarea>
+            <div class="editormd" id="test-editormd">
+                <textarea class="editormd-markdown-textarea" name="editormd-markdown-textarea" id="markdownContent"></textarea>
+                <textarea class="editormd-html-textarea" name="editormd-html-textarea" id="htmlContent"></textarea>
             </div>
-            <input type="submit" value="Post">
+            <input class="btn" type="submit" value="Post">
         </form>
     </div>
 

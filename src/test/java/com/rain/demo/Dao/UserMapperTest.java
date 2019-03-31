@@ -18,4 +18,10 @@ public class UserMapperTest {
         User user = userMapper.selectByPrimaryKey(1);
         System.out.println(user.toString());
     }
+
+    @Test
+    public void selectName() throws Exception{
+        User user = userMapper.selectByName("root");
+        System.out.println(user.toString());
+    }
 }

@@ -2,13 +2,8 @@ package com.rain.demo.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.rain.demo.Service.ArticleService;
-import com.rain.demo.Service.CommentService;
-import com.rain.demo.Service.RegisterService;
-import com.rain.demo.Service.UserService;
-import com.rain.demo.entity.Article;
-import com.rain.demo.entity.Register;
-import com.rain.demo.entity.User;
+import com.rain.demo.Service.*;
+import com.rain.demo.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +23,8 @@ public class ArticleController {
     private UserService userService;
     @Autowired
     private RegisterService registerService;
+    @Autowired
+    private CategoryService categoryService;
 
     @RequestMapping("")
     public String index(Model model,
@@ -36,8 +33,9 @@ public class ArticleController {
         PageHelper.startPage(pageNum,10);
         List<Article> arts = articleService.getAll();
         PageInfo<Article> pageInfo = new PageInfo<Article>(arts);
+        List<Category> categories = categoryService.getAllCat();
+        model.addAttribute("categories",categories);
         model.addAttribute("pageInfo",pageInfo);
-
         return "index";
     }
 
@@ -45,8 +43,18 @@ public class ArticleController {
     public String article(Model model,
                           @RequestParam(value = "article_id",required = true)Integer art_id){
         Article article = articleService.selectByPrimaryKey(art_id);
+        List<Comment> comments = commentService.getAll(art_id);
+        model.addAttribute("comments",comments);
         model.addAttribute("article",article);
         return "article";
+    }
+
+    @RequestMapping("searchByCategory")
+    public String searchByCategory(Model model,
+                                   @RequestParam(value = "categoryId",required = true)Integer cat_id){
+        List<Article> articles = articleService.getByCategory(cat_id);
+        model.addAttribute("articles",articles);
+        return "searchByCategory";
     }
 
     @RequestMapping("register")

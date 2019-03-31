@@ -5,11 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" href="/bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" th:href="@{/css/demo.css}" href="/css/demo.css"/>
+    <link rel="stylesheet" th:href="@{/editormd/css/editormd.css}" href="/editormd/css/editormd.css"/>
+
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+
     <script th:src="@{/js/jquery-3.3.1.min.js}" src="/js/jquery-3.3.1.min.js"></script>
     <script th:src="@{/bootstrap/js/bootstrap.js}" src="/bootstrap/js/bootstrap.js"></script>
+
+
+    <script th:src="@{/editormd/editormd.min.js}" src="/editormd/editormd.min.js"></script>
     <title>Edit Article</title>
+    <script type="text/javascript" th:inline="javascript">
+        $(function() {
+            var editor;
+            editor = editormd("test-editormd", {
+                width   : "60%",
+                height  : 640,
+                syncScrolling : "single",
+                path    : "/editormd/lib/",
+                saveHTMLToTextarea:true,
+
+                imageUpload: true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "/uploadImage",//注意你后端的上传图片服务地址
+                onload: function(){
+                    this.width("100%");
+                    this.height(480);
+                }
+            });
+        });
+    </script>
 </head>
 <body>
-
+<div class="header"></div>
+<div class="wrapper">
+    <h2>Welcome,<p th:text="${user.name}"></p></h2>
+    <div class="content">
+        <form method="post" action="/admin/changeArticle">
+            <div class="outline">
+                <div class="modal-title">
+                    <input type="text" name="username" th:value="${user.name}" style="display: none;"/>
+                    <input type="password" name="password" th:value="${user.password}" style="display: none;"/>
+                    <input type="text" name="articleId" th:value="${article.article_id}" style="display: none;"/>
+                    <input type="text" th:name="title" th:value="${article.title}"/>
+                    <input type="test" name="category_id" th:value="${article.category}" style="display: none"/>
+                </div>
+                <div class="modal-title">
+                    <input type="test" th:name="digit" th:value="${article.digit}"/>
+                </div>
+            </div>
+            <div class="seq5"></div>
+            <div class="editormd">
+                <div id="test-editormd">
+                    <textarea style="display:none;">[[${article.md_content}]]</textarea>
+                </div>
+            </div>
+            <input class="btn" type="submit" value="Post"/>
+        </form>
+    </div>
+</div>
+<div class="footer"></div>
 </body>
 </html>

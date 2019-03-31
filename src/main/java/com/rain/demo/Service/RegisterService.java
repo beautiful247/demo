@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public interface RegisterService {
-    List<Register> getAll();
+    List<Register> getAllReg();
 
     int insert(Register record);
 

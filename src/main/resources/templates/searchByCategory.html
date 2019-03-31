@@ -7,17 +7,13 @@
     <link rel="stylesheet" th:href="@{/css/demo.css}" href="/css/demo.css"/>
     <script th:src="@{/js/jquery-3.3.1.min.js}" src="/js/jquery-3.3.1.min.js"></script>
     <script th:src="@{/bootstrap/js/bootstrap.js}" src="/bootstrap/js/bootstrap.js"></script>
-    <title>Index</title>
-
+    <title>Articles</title>
 </head>
 <body>
-<div class="header">
-<h1>Welcome Rain's Blog!</h1>
-</div>
-<div class="wrapper">
+<div>
     <div class="context">
         <div class="seq10"></div>
-        <div class="article" th:each="article:${pageInfo.list}">
+        <div class="article" th:each="article:${articles}">
             <h1 th:text="${article.title}"></h1>
             <p th:text="${article.author}"></p>
             <p th:text="${article.digit}"></p>
@@ -27,14 +23,6 @@
             </form>
         </div>
     </div>
-    <div class="Category">
-        <div th:each="category:${categories}">
-            <a th:href="@{/searchByCategory(categoryId=${category.category_id})}" th:text="${category.category_name}"></a>
-        </div>
-    </div>
-    <a class="btn" th:href="@{/(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">Previous</a>
-    <a class="btn" th:href="@{/(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">Next</a>
 </div>
-<div class="footer"></div>
 </body>
 </html>

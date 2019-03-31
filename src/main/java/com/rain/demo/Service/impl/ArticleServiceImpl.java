@@ -32,4 +32,24 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> selectByAuthor(String author) {
         return articleMapper.selectByAuthor(author);
     }
+
+    @Override
+    public int insert(Article record) {
+        return articleMapper.insert(record);
+    }
+
+    @Override
+    public List<Article> getByCategory(Integer category_id) {
+        return articleMapper.getByCategory(category_id);
+    }
+
+    @Override
+    public List<Article> getByAuthor(String author) {
+        return articleMapper.selectByAuthor(author);
+    }
+
+    @Override
+    public int updateByPrimaryKey(Article record) {
+        return articleMapper.updateByPrimaryKey(record);
+    }
 }

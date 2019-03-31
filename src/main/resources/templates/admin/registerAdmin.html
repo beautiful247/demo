@@ -22,7 +22,7 @@
         <div class="col-md-3">
             <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password})}">Articles</a>
         </div>
-        <div class="col-md-3" th:if="${user.role_id==1}">
+        <div class="col-md-3">
             <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password})}">RegisterAdmin</a>
         </div>
     </div>
