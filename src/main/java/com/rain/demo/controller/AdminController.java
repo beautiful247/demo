@@ -1,5 +1,8 @@
 package com.rain.demo.controller;
 
+import ch.qos.logback.core.util.FileUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rain.demo.Dao.ArticleMapper;
@@ -13,15 +16,28 @@ import com.rain.demo.entity.Article;
 import com.rain.demo.entity.Category;
 import com.rain.demo.entity.Register;
 import com.rain.demo.entity.User;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.jws.WebParam;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -313,7 +329,8 @@ public class AdminController {
         }
     }
 
-    //修改用户信息
+    //跳转到修改用户信息
+    /*
     @RequestMapping("alterUser")
     public String alterUser(Model model,
                             @RequestParam(value = "username",required = false)String name,
@@ -330,6 +347,23 @@ public class AdminController {
             }
         }
         return "404";
+    }
+    */
+
+    @RequestMapping("changeProfile")
+    public String changeProfile(Model model,
+                                @RequestParam(value = "user_id",required = true)Integer userId,
+                                @RequestParam(value = "password",required = false)String password,
+                                @RequestParam(value = "phone",required = false)Integer phone,
+                                @RequestParam(value = "email",required = false)String email,
+                                @RequestParam(value = "corporation",required = false)String corporation){
+        User user = userService.selectByPrimaryKey(userId);
+        user.setPassword(password);
+        user.setPhone(phone);
+        user.setEmail(email);
+        user.setCorporation(corporation);
+        userService.updateByPrimaryKey(user);
+        return "redirect:admin";
     }
 
     //删除用户
@@ -350,5 +384,29 @@ public class AdminController {
         return "404";
     }
 
+    @RequestMapping("uploadImage")
+    @ResponseBody
+    public Map<String, Object> uploadImage(@RequestParam(value = "editormd-image-file",required = false)MultipartFile file,
+                                           HttpServletRequest request){
+        Map<String,Object> resultMap = new HashMap<String,Object>();
+        String filePath = "C:\\Users\\Ammaz\\IdeaProjects\\demo\\src\\main\\resources\\static\\imgs\\";
+        String imgPath = "../imgs/";
+        String fileName = file.getOriginalFilename();
+
+        try{
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(filePath+fileName);
+            Files.write(path,bytes);
+            resultMap.put("success",1);
+            resultMap.put("message","上传成功！");
+            resultMap.put("url",imgPath+fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultMap.put("success",0);
+            resultMap.put("message","Failed!");
+        }
+
+        return resultMap;
+    }
 
 }

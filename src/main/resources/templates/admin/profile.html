@@ -27,19 +27,21 @@
         <div class="col-md-12">
             <table>
                 <tr>
-                    <td>User Id</td>
-                    <td>User name</td>
+                    <td>Password</td>
                     <td>Phone</td>
                     <td>Email</td>
                     <td>Corporation</td>
                 </tr>
-                <tr>
-                    <td th:text="${user.user_id}"></td>
-                    <td th:text="${user.name}"></td>
-                    <td th:text="${user.phone}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${user.corporation}"></td>
-                </tr>
+                <form method="post" action="/admin/changeProfile">
+                    <tr>
+                        <input type="text" name="user_id" th:value="${user.user_id}" style="display: none"/>
+                        <td><input type="text" name="password" th:value="${user.password}"/></td>
+                        <td><input type="text" name="phone" th:value="${user.phone}"/></td>
+                        <td><input type="text" name="email" th:value="${user.email}"/></td>
+                        <td><input type="text" name="corporation" th:value="${user.corporation}"/></td>
+                        <input type="submit" value="Change"/>
+                    </tr>
+                </form>
             </table>
         </div>
     </div>

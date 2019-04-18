@@ -9,4 +9,6 @@ import java.util.List;
 @Service
 public interface CategoryService {
     List<Category> getAllCat();
+
+    Category selectByPrimaryKey(Integer category_id);
 }

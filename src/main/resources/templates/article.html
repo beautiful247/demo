@@ -21,6 +21,7 @@
         $(function () {
             editormd.markdownToHTML("testEditormd", {
                 htmlDecode      : "style,script,iframe",
+                width           : "75%",
                 emoji           : true,
                 taskList        : true,
                 tex             : true,  // 默认不解析
@@ -30,37 +31,54 @@
         });
     </script>
 </head>
-<body>
-<div class="wrapper">
+<body style="text-align: center">
+<div class="wrapper" style="width: 75%">
     <div id="view_detail">
         <h1 th:text="${article.title}"></h1>
         <div class="information">
-            <span>Author:<p th:text="${article.author}"></p></span>
-            <span>Post Time:<p th:text="${article.post_time}"></p></span>
-            <span>Category:<p th:text="${article.category}"></p></span>
+            <span>Author:[[${article.author}]]</p></span>
+            <span>Post Time:[[${article.post_time}]]</span>
+            <span>Category:[[${category.category_name}]]</span>
         </div>
         <div id="testEditormd">
             <textarea id="test" th:inline="text" style="display: none">[[${article.md_content}]]</textarea>
         </div>
         <div class="information">
-            <span>Likes:<p th:text="${article.likes}"></p></span>
+            <span>Likes( [[${article.likes}]] )</span>
         </div>
     </div>
-    <! 评论窗口 -->
+    <!-- 评论窗口 -->
+    <div class="seq10" style="border-bottom: solid #0a001f 2px"></div>
     <div class="comment">
-        <div class="comment_content">
-            <div th:each="comment:${comments}">
-                <p th:text="${comment.user_name}"></p>
+        <div style="width: 100%;">
+            <div class="comment_content" th:each="comment:${comments}" style="float: left;text-align: left">
+                <p>[[${comment.user_name}]] said @ ( [[${comment.comm_time}]] ):</p>
                 <p th:text="${comment.content}"></p>
-                <p th:text="${comment.comm_time}"></p>
             </div>
         </div>
+        <div class="seq10" style="clear: both"></div>
         <div class="comment_post">
-            <form action="/comment_post" method="post" style="width: 100%">
-                <input type="text" name="article_id" th:value="${article.article_id}" style="display: none"/>
-                <p>Your Contact:</p><input type="text" name="user"/>
-                <textarea name="comment_content" class="comment-content"></textarea>
-                <input type="submit" class="btn" value="Post"/>
+            <form action="/comment_post" class="form-horizontal" method="post" style="width: 100%">
+                <div class="form-group" style="float: left;width: 5%;text-align: right">
+                    <div style="height: 100%">
+                        <p>You:  </p>
+                        <p>Content:  </p>
+                    </div>
+
+                </div>
+
+                <div class="form-group" style="float: left;width: 45%;text-align: left">
+                    <div style="height: 100%">
+                        <input class="form-control" type="text" name="user"/></p>
+                        <textarea name="comment_content" class="comment-content"></textarea>
+                    </div>
+
+                </div>
+                <div class="seq5" style="clear: both"></div>
+                <div style="clear: both;text-align: left;margin-left: 10%">
+                    <input type="text" name="article_id" th:value="${article.article_id}" style="display: none"/>
+                    <input type="submit" class="btn" value="Post"/>
+                </div>
             </form>
         </div>
     </div>

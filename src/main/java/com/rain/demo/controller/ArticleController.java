@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rain.demo.Service.*;
 import com.rain.demo.entity.*;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,8 @@ public class ArticleController {
     public String index(Model model,
                         @RequestParam(defaultValue = "1",value = "pageNum")Integer pageNum){
 
+        List<User> users = userService.getAll();
+        model.addAttribute("users",users);
         PageHelper.startPage(pageNum,10);
         List<Article> arts = articleService.getAll();
         PageInfo<Article> pageInfo = new PageInfo<Article>(arts);
@@ -39,11 +42,26 @@ public class ArticleController {
         return "index";
     }
 
+    @RequestMapping("searchByEditors")
+    public String searchByEditors(Model model,
+                                  @RequestParam(value = "editorId",required = false)Integer user_id){
+        User user = userService.selectByPrimaryKey(user_id);
+        List<User> users = userService.getAll();
+        model.addAttribute("users",users);
+        List<Category> categories = categoryService.getAllCat();
+        model.addAttribute("categories",categories);
+        List<Article> articles = articleService.selectByAuthor(user.getName());
+        model.addAttribute("articles",articles);
+        return "searchByEditor";
+    }
+
     @RequestMapping("article")
     public String article(Model model,
                           @RequestParam(value = "article_id",required = true)Integer art_id){
         Article article = articleService.selectByPrimaryKey(art_id);
         List<Comment> comments = commentService.getAll(art_id);
+        Category category = categoryService.selectByPrimaryKey(article.getCategory());
+        model.addAttribute("category",category);
         model.addAttribute("comments",comments);
         model.addAttribute("article",article);
         return "article";
@@ -104,6 +122,8 @@ public class ArticleController {
         comment.setContent(content);
         comment.setUser_name(user);
         commentService.insert(comment);
+        article.setComment_account(article.getComment_account()+1);
+        articleService.updateByPrimaryKey(article);
         return "redirect:/article?article_id="+art_id;
     }
 
