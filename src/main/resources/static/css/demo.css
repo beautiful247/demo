@@ -73,6 +73,21 @@ span {
     opacity: 0.7;
 }
 
+.navigator {
+    margin: 0 auto;
+    width: 100%;
+}
+.navigator_link {
+}
+
+.login_container {
+    text-align: center;
+}
+
+.login_form {
+    text-align: center;
+}
+
 .seq5 {
     display: block;
     max-width: 100%;

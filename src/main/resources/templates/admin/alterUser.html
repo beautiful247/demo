@@ -10,6 +10,30 @@
     <title>Alter User</title>
 </head>
 <body>
-
+<h1>Welcome, [[${super_user.name}]]</h1>
+<div>
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>Password</td>
+            <td>Phone</td>
+            <td>Email</td>
+            <td>Corporation</td>
+        </tr>
+        <form method="post" action="/admin/changeUserProfile">
+            <input type="text" name="admin_user_name" th:value="${super_user.name}" style="display: none"/>
+            <input type="password" name="admin_user_pass" th:value="${super_user.password}" style="display: none"/>
+            <tr>
+                <input type="text" name="userId" th:value="${user.user_id}" style="display: none"/>
+                <td><input type="text" name="user_name" th:value="${user.name}"/></td>
+                <td><input type="text" name="password" th:value="${user.password}"/></td>
+                <td><input type="text" name="phone" th:value="${user.phone}"/></td>
+                <td><input type="text" name="email" th:value="${user.email}"/></td>
+                <td><input type="text" name="corporation" th:value="${user.corporation}"/></td>
+            </tr>
+            <input type="submit" class="btn" value="Change"/>
+        </form>
+    </table>
+</div>
 </body>
 </html>

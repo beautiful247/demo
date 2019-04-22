@@ -30,14 +30,14 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table schema="blogdemo" tableName="comment" domainObjectName="Comment" >
+        <table schema="blogdemo" tableName="users" domainObjectName="User" >
             <property name="useActualColumnNames" value="true"/>
             <generatedKey column="ID" sqlStatement="DB2" identity="true" />
             <columnOverride column="DATE_FIELD" property="startDate" />
             <ignoreColumn column="FRED" />
-            <!---
+
             <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
-            -->
+
             <columnOverride column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
             <columnOverride column="md_content" javaType="java.lang.String" jdbcType="VARCHAR" />
         </table>

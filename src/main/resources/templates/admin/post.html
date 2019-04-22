@@ -33,22 +33,21 @@
 <body>
 <div class="container">
     <h1>Welcome,<span th:text="${user.name}"></span></h1>
-    <div class="row">
-        <div class="col-md-10">
-            <div class="col-md-3">
-                <a class="btn" th:href="@{/admin/profile(username=${user.name},password=${user.password})}">Profile</a>
-            </div>
-            <div class="col-md-3">
-                <a class="btn" th:href="@{/admin/userAdmin(username=${user.name},password=${user.password})}">Users</a>
-            </div>
-            <div class="col-md-3">
-                <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password})}">Articles</a>
-            </div>
-            <div class="col-md-3">
-                <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password})}">RegisterAdmin</a>
-            </div>
+    <div class="seq10"></div>
+    <div class="navigator">
+        <div class="navigator_link">
+            <a class="btn" th:href="@{/admin/postArticle(username=${user.name},password=${user.password})}">Post</a>
+
+            <a class="btn" th:href="@{/admin/profile(username=${user.name},password=${user.password})}">Prof</a>
+
+            <a class="btn" th:href="@{/admin/userAdmin(username=${user.name},password=${user.password})}">User</a>
+
+            <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password})}">Arts</a>
+
+            <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password})}">Regs</a>
         </div>
     </div>
+
     <div class="seq10"></div>
     <div class="post">
         <form action="/admin/postArticle">
@@ -56,15 +55,16 @@
                 <div class="modal-title">
                     <input type="text" name="username" th:value="${user.name}" style="display: none;"/>
                     <input type="password" name="password" th:value="${user.password}" style="display: none;"/>
-                    <input type="text" th:name="title"/>
+                    <p>Title :<input type="text" th:name="title"/></p>
                 </div>
                 <div>
+                    <span>Category :</span>
                     <select name="category_id">
                         <option th:each="cat:${cats}" th:value="${cat.category_id}" th:text="${cat.category_name}"></option>
                     </select>
                 </div>
                 <div class="modal-title">
-                    <input type="test" th:name="digit"/>
+                    <p>Digit :<input type="test" th:name="digit"/></p>
                 </div>
             </div>
             <div class="editormd" id="test-editormd">

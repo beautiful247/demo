@@ -12,47 +12,48 @@
 <body>
 <div class="container">
     <h1>Welcome, <span th:text="${user.name}"></span></h1>
-    <div class="row">
-        <div class="col-md-10">
-            <div class="col-md-3">
-                <a class="btn" th:href="@{/admin/profile(username=${user.name},password=${user.password})}">Profile</a>
-            </div>
-            <div class="col-md-3">
-                <a class="btn" th:href="@{/admin/userAdmin(username=${user.name},password=${user.password})}">Users</a>
-            </div>
-            <div class="col-md-3">
-                <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password})}">Articles</a>
-            </div>
-            <div class="col-md-3">
-                <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password})}">RegisterAdmin</a>
-            </div>
+
+    <div class="seq10"></div>
+    <div class="navigator">
+        <div class="navigator_link">
+            <a class="btn" th:href="@{/admin/postArticle(username=${user.name},password=${user.password})}">Post</a>
+
+            <a class="btn" th:href="@{/admin/profile(username=${user.name},password=${user.password})}">Prof</a>
+
+            <a class="btn" th:href="@{/admin/userAdmin(username=${user.name},password=${user.password})}">User</a>
+
+            <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password})}">Arts</a>
+
+            <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password})}">Regs</a>
         </div>
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <tr>
-                        <td>Article Id</td>
-                        <td>Title</td>
-                        <td>Post time</td>
-                        <td>Operation</td>
-                    </tr>
-                    <tr th:each="article:${pageInfo.list}">
-                        <td th:text="${article.article_id}"></td>
-                        <td th:text="${article.title}"></td>
-                        <td th:text="${article.post_time}"></td>
-                        <td>
-                            <a class="btn" th:href="@{/admin/editArticle(username=${user.name},password=${user.password},articleId=${article.article_id},changed=0)}">Edit</a>
-                            <a class="btn btn-danger" th:href="@{/admin/deleteArticle(username=${user.name},password=${user.password},articleId=${article.article_id})}">Delete</a>
-                        </td>
-                    </tr>
-                </table>
-                <div class="row">
-                    <div class="col-md-3" th:if="${pageInfo.hasPreviousPage}">
-                        <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.prePage})}">Previous</a>
-                    </div>
-                    <div class="col-md-3" th:if="${pageInfo.hasNextPage}">
-                        <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.nextPage})}">Next</a>
-                    </div>
+    </div>
+
+    <div class="seq10"></div>
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <tr>
+                    <td>Article Id</td>
+                    <td>Title</td>
+                    <td>Post time</td>
+                    <td>Operation</td>
+                </tr>
+                <tr th:each="article:${pageInfo.list}">
+                    <td th:text="${article.article_id}"></td>
+                    <td th:text="${article.title}"></td>
+                    <td th:text="${article.post_time}"></td>
+                    <td>
+                        <a class="btn" th:href="@{/admin/editArticle(username=${user.name},password=${user.password},articleId=${article.article_id},changed=0)}">Edit</a>
+                        <a class="btn btn-danger" th:href="@{/admin/deleteArticle(username=${user.name},password=${user.password},articleId=${article.article_id})}">Delete</a>
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-md-3" th:if="${pageInfo.hasPreviousPage}">
+                    <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.prePage})}">Previous</a>
+                </div>
+                <div class="col-md-3" th:if="${pageInfo.hasNextPage}">
+                    <a class="btn" th:href="@{/admin/articleAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.nextPage})}">Next</a>
                 </div>
             </div>
         </div>

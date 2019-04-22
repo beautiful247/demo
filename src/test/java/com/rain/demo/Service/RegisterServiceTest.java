@@ -1,5 +1,6 @@
 package com.rain.demo.Service;
 
+import com.rain.demo.Dao.RegisterMapper;
 import com.rain.demo.entity.Register;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,8 @@ import static org.junit.Assert.*;
 public class RegisterServiceTest {
     @Autowired
     private RegisterService registerService;
+    @Autowired
+    private RegisterMapper registerMapper;
 
     @Test
     public void getAll(){
@@ -40,6 +43,14 @@ public class RegisterServiceTest {
         }catch (Exception e){
             System.out.println(e);
         }
+    }
+
+    @Test
+    public void update(){
+        Register register = registerService.selectByPrimaryKey(1);
+        register.setStatus(0);
+        registerMapper.updateByPrimaryKey(register);
+        System.out.println("amazon");
     }
 
 }
