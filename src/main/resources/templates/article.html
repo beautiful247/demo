@@ -21,7 +21,7 @@
         $(function () {
             editormd.markdownToHTML("testEditormd", {
                 htmlDecode      : "style,script,iframe",
-                width           : "75%",
+                width           : "70%",
                 emoji           : true,
                 taskList        : true,
                 tex             : true,  // 默认不解析
@@ -32,7 +32,7 @@
     </script>
 </head>
 <body style="text-align: center">
-<div class="wrapper" style="width: 75%">
+<div class="wrapper">
     <div id="view_detail">
         <h1 th:text="${article.title}"></h1>
         <div class="information">

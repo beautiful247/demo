@@ -12,10 +12,11 @@
 </head>
 <body>
 <div class="header">
-<h1>Welcome Rain's Blog!</h1>
+    <div class="seq50"></div>
+<h1><strong>Leong Chen</strong></h1>
 </div>
+<div class="seq10"></div>
 <div class="wrapper">
-
     <div class="context">
 
         <div class="seq10"></div>
@@ -30,13 +31,14 @@
                 <span>Comments( [[${article.comment_account}]] )</span>
                 <form method="post" th:action="article">
                     <input type="text" th:name="article_id" th:value="${article.article_id}" style="display: none"/>
-                    <input class="btn btn-default" type="submit" value="view more" style="float: right"/>
+                    <input class="btn" type="submit" value="view more" style="float: right"/>
                 </form>
             </div>
 
         </div>
         <div class="right_inner">
             <!--分类-->
+            <p>Category</p>
             <div class="Category">
                 <div th:each="category:${categories}">
                     <a class="btn btn-link" th:href="@{/searchByCategory(categoryId=${category.category_id})}" th:text="${category.category_name}"></a>
@@ -44,21 +46,62 @@
             </div>
             <div class="seq5"></div>
             <!--作者-->
+            <p>Authors</p>
             <div class="editors">
                 <div th:each="user:${users}">
                     <a class="btn btn-link" th:href="@{/searchByEditors(editorId=${user.user_id})}" th:text="${user.name}"></a>
                 </div>
             </div>
+            <div class="seq10"></div>
+            <div class="search">
+                <div class="input-group">
+                    <form action="/search" method="post">
+                        <span class="input-group-addon"><input type="text"name="searchTitle"/></span>
+                        <span class="input-group-addon"><input type="submit" class="btn" value="Go Search"/></span>
+                    </form>
+                </div>
+            </div>
         </div>
-
+        <div class="seq10"></div>
         <!--页码-->
         <div class="pages">
             <a class="btn" th:href="@{/(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">Prev</a>
             <a class="btn" th:href="@{/(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">Next</a>
         </div>
+        <div class="seq10"></div>
     </div>
 </div>
 <div class="seq10"></div>
-<div class="footer"></div>
+<div class="footer">
+    <div class="seq50"></div>
+    <div class="container">
+        <div class="information">
+            <address>
+                <strong>LeongChen, Inc.</strong><br>
+                New York Fifth Avenue<br>
+                <abbr title="Phone">P:</abbr> (+86) 17726110197
+            </address>
+
+            <address>
+                <strong>Leong Chen</strong><br>
+                <a href="mailto:#">17726110197@163.com</a>
+            </address>
+        </div>
+        <div class="contact">
+            <address>
+                <strong>Twitter @ LeongChen</strong><br>
+                <a href="#">Twitter.com</a>
+            </address>
+            <address>
+                <strong>Instagram @ LeongChen</strong><br>
+                <a href="#">Instagram.com</a>
+            </address>
+            <address>
+                <strong>Email @ LeongChen</strong><br>
+                <a href="#">2015551518@smail.xtu.edu.cn</a>
+            </address>
+        </div>
+    </div>
+</div>
 </body>
 </html>

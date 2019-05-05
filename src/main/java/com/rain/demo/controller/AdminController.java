@@ -13,10 +13,7 @@ import com.rain.demo.Service.ArticleService;
 import com.rain.demo.Service.CommentService;
 import com.rain.demo.Service.RegisterService;
 import com.rain.demo.Service.UserService;
-import com.rain.demo.entity.Article;
-import com.rain.demo.entity.Category;
-import com.rain.demo.entity.Register;
-import com.rain.demo.entity.User;
+import com.rain.demo.entity.*;
 import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +28,7 @@ import javax.jws.WebParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -65,20 +63,26 @@ public class AdminController {
 
     //登录
     @RequestMapping("")
-    public String admin(HttpServletResponse httpServletResponse,
+    public String admin(HttpSession httpSession,
+                        HttpServletResponse httpServletResponse,
                         HttpServletRequest httpServletRequest,
                         Model model,
                         @RequestParam(value = "username",required = false)String name,
                         @RequestParam(value = "password",required = false)String password,
                         @RequestParam(value = "autoLogin",required = false)boolean auto){
+
+
         //若当前缓存中已有账号登录 跳转到管理页面
         Cookie[] cookies =  httpServletRequest.getCookies();
         if(cookies!=null){
             for(Cookie cookie : cookies){
                 if(cookie.getName().equals("CookieId")){
-                    cookie.setMaxAge(24*60*60*30);
                     httpServletResponse.addCookie(cookie);
                     model.addAttribute("user",userService.selectByName(cookie.getValue()));
+
+                    //加入统计信息
+                    List<ArticleHeat> heats = articleService.anaHeat();
+                    model.addAttribute("heats",heats);
                     return "admin/admin";
                 }
             }
@@ -96,7 +100,6 @@ public class AdminController {
                 if(auto){
                     cookie.setMaxAge(24*60*60*30);
                 }else{
-                    cookie.setMaxAge(12*60*60);
                 }
                 httpServletResponse.addCookie(cookie);
                 model.addAttribute("user",user);
@@ -329,6 +332,7 @@ public class AdminController {
     public String profile(HttpServletResponse httpServletResponse,
                           HttpServletRequest httpServletRequest,
                           Model model,
+                          @RequestParam(value = "userId",required = false)Integer userId,
                           @RequestParam(value = "username",required = false)String name,
                           @RequestParam(value = "password",required = false)String password){
         Cookie[] cookies =  httpServletRequest.getCookies();
@@ -417,11 +421,12 @@ public class AdminController {
                 User new_user = new User();
                 new_user.setName(register.getName());
                 new_user.setPassword(register.getPassword());
-                new_user.setRole_id(1);
+                new_user.setRole_id(2);
                 new_user.setPhone(register.getPhone());
                 new_user.setEmail(register.getEmail());
                 new_user.setCorporation(register.getCorporation());
                 userService.insert(new_user);
+                registerService.sendMail(new_user.getEmail(),new_user);
                 return "redirect:/admin/userAdmin";
             }
         }
@@ -443,7 +448,8 @@ public class AdminController {
             if (password.equals(user.getPassword())) {
                 Register register = registerService.selectByPrimaryKey(register_id);
                 register.setStatus(2);
-                return "redirect:/admin/userAdmin";
+                registerMapper.updateByPrimaryKey(register);
+                return "redirect:/admin/registerAdmin";
             }
         }
         return "404";
@@ -530,11 +536,16 @@ public class AdminController {
                                 @RequestParam(value = "email",required = false)String email,
                                 @RequestParam(value = "corporation",required = false)String corporation){
         User user = userService.selectByName(username);
+        if(corporation=="This"){
+            user.setRole_id(1);
+        }else{
+            user.setRole_id(2);
+        }
         user.setPassword(password);
         user.setPhone(phone);
         user.setEmail(email);
         user.setCorporation(corporation);
-        userService.updateByPrimaryKey(user);
+        userService.updateByName(user);
         return "redirect:/admin";
     }
 

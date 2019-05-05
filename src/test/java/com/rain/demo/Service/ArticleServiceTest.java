@@ -97,4 +97,10 @@ public class ArticleServiceTest {
         System.out.println(articleService.insert(article));
     }
 
+    @Test
+    public void testSearch(){
+        List<Article> a = articleService.search("test");
+        System.out.println(a.size());
+    }
+
 }

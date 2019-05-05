@@ -97,4 +97,6 @@ public interface UserMapper {
     User selectByName(String name);
 
     List<User> getAll();
+
+    int updateByName(User record);
 }

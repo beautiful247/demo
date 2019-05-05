@@ -11,10 +11,11 @@
 </head>
 <body>
 <div class="header">
-
+    <h1><strong style="font: italic 2em Georgia, serif;">Leong Chen</strong></h1>
 </div>
-<div class="wrapper">
+<div class="container">
     <div class="register">
+        <p th:if="msg"></p>
         <form action="/register">
             <p>账号：<input type="text" name="username"/></p>
             <p>密码：<input type="password" name="password"/></p>

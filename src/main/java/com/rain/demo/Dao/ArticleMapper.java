@@ -3,6 +3,8 @@ package com.rain.demo.Dao;
 import com.rain.demo.entity.Article;
 import com.rain.demo.entity.ArticleExample;
 import java.util.List;
+
+import com.rain.demo.entity.ArticleHeat;
 import org.apache.ibatis.annotations.Param;
 
 public interface ArticleMapper {
@@ -99,4 +101,8 @@ public interface ArticleMapper {
     List<Article> selectByAuthor(String author);
 
     List<Article> getByCategory(Integer category_id);
+
+    List<Article> search(String searchTitle);
+
+    List<Article> getHeat();
 }

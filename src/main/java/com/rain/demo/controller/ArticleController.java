@@ -103,7 +103,7 @@ public class ArticleController {
         register.setPhone(phone);
         register.setEmail(email);
         register.setCorporation(corporation);
-        register.setStatus(1);
+        register.setStatus(0);
         register.setDetail(detail);
         registerService.insert(register);
         msg = "请求表提交成功，请等待管理员审核";
@@ -125,6 +125,15 @@ public class ArticleController {
         article.setComment_account(article.getComment_account()+1);
         articleService.updateByPrimaryKey(article);
         return "redirect:/article?article_id="+art_id;
+    }
+
+    @RequestMapping("search")
+    public String search(Model model,
+                  @RequestParam(value = "searchTitle",required = true)String searchTitle){
+        List<Article> results = articleService.search(searchTitle);
+        results.addAll(articleService.selectByAuthor(searchTitle));
+        model.addAttribute("searchResult",results);
+        return "search";
     }
 
 }

@@ -17,7 +17,7 @@
         <div class="navigator_link">
             <a class="btn" th:href="@{/admin/postArticle(username=${user.name},password=${user.password})}">Post</a>
 
-            <a class="btn" th:href="@{/admin/profile(username=${user.name},password=${user.password})}">Prof</a>
+            <a class="btn" th:href="@{/admin/profile(userId=${user.user_id},username=${user.name},password=${user.password})}">Prof</a>
 
             <a class="btn" th:href="@{/admin/userAdmin(username=${user.name},password=${user.password})}">User</a>
 
@@ -27,6 +27,17 @@
         </div>
     </div>
     <div class="seq10"></div>
+    <div class="heat">
+        <div th:each="heat:${heats}">
+            <p>[[${heat.title}]]</p>
+            <span>[[${heat.author}]]</span>
+            <span>[[${heat.comment_count}]]</span>
+            <span>[[${heat.likes}]]</span>
+        </div>
+    </div>
+    <div th:if="user.role_id eq 1">
+        <p>Hello!</p>
+    </div>
 </div>
 </body>
 </html>

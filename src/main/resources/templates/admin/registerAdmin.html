@@ -10,9 +10,10 @@
     <title>Register Admin</title>
 </head>
 <body>
-<h1>Welcome,<span th:text="${user.name}"></span></h1>
+
 <div class="seq10"></div>
-<div class="navigator">
+<div class="container">
+    <h1>Welcome,<span th:text="${user.name}"></span></h1>
     <div class="navigator_link">
         <a class="btn" th:href="@{/admin/postArticle(username=${user.name},password=${user.password})}">Post</a>
 
@@ -24,49 +25,50 @@
 
         <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password})}">Regs</a>
     </div>
-</div>
-
-<div class="seq10"></div>
-<div class="col-md-12">
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <tr>
-                <td>Register Id</td>
-                <td>Name</td>
-                <td>Corporation</td>
-                <td>Phone</td>
-                <td>Email</td>
-                <td>Detail</td>
-                <td></td>
-            </tr>
-            <tr th:each="register:${pageInfo.list}">
-                <td th:text="${register.register_id}"></td>
-                <td th:text="${register.name}"></td>
-                <td th:text="${register.corporation}"></td>
-                <th th:text="${register.phone}"></th>
-                <td th:text="${register.email}"></td>
-                <td th:text="${register.detail}"></td>
-                <td th:if="${register.status==0}">
-                    <a class="btn" th:href="@{/admin/agreeRegister(username=${user.name},password=${user.password},registerId=${register.register_id})}">Agree</a>
-                    <a class="btn btn-danger" th:href="@{/admin/denyRegister(username=${user.name},password=${user.password},registerId=${register.register_id})}">Deny</a>
-                </td>
-                <td th:if="${register.status==1}">
-                    <span>已注册</span>
-                </td>
-                <td th:if="${register.status==2}">
-                    <span>被拒绝</span>
-                </td>
-            </tr>
-        </table>
-        <div class="row">
-            <div class="col-md-3" th:if="${pageInfo.hasPreviousPage}">
-                <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.prePage})}">Previous</a>
-            </div>
-            <div class="col-md-3" th:if="${pageInfo.hasNextPage}">
-                <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.nextPage})}">Next</a>
+    <div class="seq10"></div>
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <tr>
+                    <td>Register Id</td>
+                    <td>Name</td>
+                    <td>Corporation</td>
+                    <td>Phone</td>
+                    <td>Email</td>
+                    <td>Detail</td>
+                    <td></td>
+                </tr>
+                <tr th:each="register:${pageInfo.list}">
+                    <td th:text="${register.register_id}"></td>
+                    <td th:text="${register.name}"></td>
+                    <td th:text="${register.corporation}"></td>
+                    <th th:text="${register.phone}"></th>
+                    <td th:text="${register.email}"></td>
+                    <td th:text="${register.detail}"></td>
+                    <td th:if="${register.status==0}">
+                        <a class="btn" th:href="@{/admin/agreeRegister(username=${user.name},password=${user.password},registerId=${register.register_id})}">Agree</a>
+                        <a class="btn btn-danger" th:href="@{/admin/denyRegister(username=${user.name},password=${user.password},registerId=${register.register_id})}">Deny</a>
+                    </td>
+                    <td th:if="${register.status==1}">
+                        <span>已注册</span>
+                    </td>
+                    <td th:if="${register.status==2}">
+                        <span>被拒绝</span>
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-md-3" th:if="${pageInfo.hasPreviousPage}">
+                    <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.prePage})}">Previous</a>
+                </div>
+                <div class="col-md-3" th:if="${pageInfo.hasNextPage}">
+                    <a class="btn" th:href="@{/admin/registerAdmin(username=${user.name},password=${user.password},pageNum=${pageInfo.nextPage})}">Next</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
 </body>
 </html>

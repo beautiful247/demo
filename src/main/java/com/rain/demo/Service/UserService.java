@@ -19,4 +19,6 @@ public interface UserService {
     User selectByName(String name);
 
     List<User> getAll();
+
+    int updateByName(User record);
 }

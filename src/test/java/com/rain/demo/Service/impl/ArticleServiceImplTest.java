@@ -2,6 +2,7 @@ package com.rain.demo.Service.impl;
 
 import com.rain.demo.Service.ArticleService;
 import com.rain.demo.entity.Article;
+import com.rain.demo.entity.ArticleHeat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -18,6 +20,14 @@ public class ArticleServiceImplTest {
 
     @Autowired
     private ArticleService articleService;
+
+    @Test
+    public void getHeat(){
+        List<ArticleHeat> results = articleService.anaHeat();
+        for(int i=0;i<results.size();i++){
+            System.out.println(results.get(i).toString());
+        }
+    }
 
     @Test
     public void updateByPrimaryKey() {

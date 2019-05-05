@@ -20,6 +20,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.getAll();
     }
 
+    @Override
+    public int updateByName(User record) {
+        return userMapper.updateByName(record);
+    }
+
 
     @Override
     public int deleteByPrimaryKey(Integer user_id) {
